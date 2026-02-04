@@ -144,9 +144,50 @@ Removes subscribers from the mailing list.
 
 ### send-update
 
-Sends monthly update emails to verified subscribers. Fetches the next upcoming event from GitHub.
+Sends update emails to verified subscribers. Automatically fetches the next upcoming event from the GitHub Meetups repo and includes it in the email. If no upcoming events exist, uses `UPDATE_FALLBACK_LINK` instead.
 
-**Endpoint:** `POST /functions/v1/send-update` (requires `x-admin-key` header)
+**Endpoint:** `POST /functions/v1/send-update`
+
+**Authentication:** Requires `x-admin-key` header matching the `ADMIN_KEY` environment variable.
+
+**Local testing:**
+```bash
+npm run send-update
+```
+
+**Manual curl request:**
+```bash
+curl -X POST https://YOUR_SUPABASE_URL/functions/v1/send-update \
+  -H "x-admin-key: YOUR_ADMIN_KEY"
+```
+
+**Generating an ADMIN_KEY:**
+```bash
+# Generate a secure 32-byte hex key
+openssl rand -hex 32
+```
+
+**Setting up scheduled sends (production):**
+
+Option 1: Use a cron service (cron-job.org, EasyCron, etc.) to POST to the endpoint monthly.
+
+Option 2: Use GitHub Actions with a scheduled workflow:
+```yaml
+# .github/workflows/send-update.yml
+name: Send Monthly Update
+on:
+  schedule:
+    - cron: '0 14 1 * *'  # 2pm UTC on the 1st of each month
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -X POST ${{ secrets.SUPABASE_URL }}/functions/v1/send-update \
+            -H "x-admin-key: ${{ secrets.ADMIN_KEY }}"
+```
 
 ## Deployment
 
@@ -154,12 +195,19 @@ The site deploys to GitHub Pages via GitHub Actions on push to `main`.
 
 ### Production Environment Variables
 
-Set these in your Supabase project and GitHub secrets:
+Set these in your Supabase project dashboard under Edge Functions > Secrets:
 
-- `SITE_URL` - Production URL (https://monctontechhive.ca)
-- `ADMIN_KEY` - Secure key for admin endpoints
-- `RESEND_API_KEY` - Resend API key for sending emails
-- `EMAIL_FROM` - From address for emails
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `SITE_URL` | Production URL for email links | `https://monctontechhive.ca` |
+| `ADMIN_KEY` | Secure key for send-update auth | `openssl rand -hex 32` |
+| `RESEND_API_KEY` | Resend API key for sending emails | `re_xxxxx` |
+| `EMAIL_FROM` | From address for emails | `Tech Moncton <noreply@monctontechhive.ca>` |
+| `UPDATE_FALLBACK_LINK` | Link to use if no upcoming events | `https://facebook.com/yourpage` |
+
+If using GitHub Actions for scheduled sends, also add to repository secrets:
+- `SUPABASE_URL` - Your Supabase project URL
+- `ADMIN_KEY` - Same key as above
 
 ## Data Source
 

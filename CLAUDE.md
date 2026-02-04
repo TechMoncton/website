@@ -100,6 +100,38 @@ EMAIL_FROM            # From address (default: Tech Moncton <noreply@monctontech
    ```
 3. Restart `supabase functions serve`
 
+## Sending Update Emails
+
+The `send-update` Edge Function sends emails to all verified subscribers with the next upcoming event (or a fallback link if no events).
+
+### Local Testing
+```bash
+npm run send-update
+```
+This reads `ADMIN_KEY` from `supabase/.env` automatically.
+
+### Production Setup
+
+1. Generate a secure admin key:
+   ```bash
+   openssl rand -hex 32
+   ```
+
+2. Set the key in Supabase Edge Functions secrets (Dashboard > Edge Functions > Secrets):
+   - `ADMIN_KEY` = the generated key
+   - `RESEND_API_KEY` = your Resend API key
+   - `SITE_URL` = `https://monctontechhive.ca`
+   - `EMAIL_FROM` = `Tech Moncton <noreply@monctontechhive.ca>`
+   - `UPDATE_FALLBACK_LINK` = fallback URL if no events
+
+3. Trigger manually:
+   ```bash
+   curl -X POST https://YOUR_PROJECT.supabase.co/functions/v1/send-update \
+     -H "x-admin-key: YOUR_ADMIN_KEY"
+   ```
+
+4. For automated monthly sends, set up a GitHub Actions workflow or external cron service.
+
 ## Security Notes
 
 - CORS is restricted to `SITE_URL` (not `*`)
