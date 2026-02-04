@@ -18,6 +18,8 @@ pnpm-debug.log*
 .env.production
 .env.local
 supabase/.env
+supabase/.branches/
+supabase/.temp/
 
 # macOS
 .DS_Store
