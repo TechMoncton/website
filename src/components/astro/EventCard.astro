@@ -10,6 +10,7 @@ interface Props {
     speaker: string;
     date: string;
     time: string;
+    upcomingBadge: string;
   };
   lang: string;
 }
@@ -33,7 +34,7 @@ const formattedDate = eventDate.toLocaleDateString(lang === 'fr' ? 'fr-CA' : 'en
       <CardTitle className="text-lg">{event.topic}</CardTitle>
       {upcoming && (
         <Badge variant="default" className="shrink-0">
-          {lang === 'fr' ? 'À venir' : 'Upcoming'}
+          {translations.upcomingBadge}
         </Badge>
       )}
     </div>

@@ -27,7 +27,8 @@
     "noPast": "Aucun événement passé à afficher.",
     "speaker": "Présentateur",
     "date": "Date",
-    "time": "Heure"
+    "time": "Heure",
+    "upcomingBadge": "À venir"
   },
   "subscribe": {
     "title": "Restez informé",
@@ -45,6 +46,13 @@
     "success": "Votre courriel a été vérifié! Vous êtes maintenant abonné aux mises à jour de Tech Moncton.",
     "error": "La vérification a échoué. Le lien peut être invalide ou expiré.",
     "noToken": "Aucun jeton de vérification fourni."
+  },
+  "unsubscribe": {
+    "title": "Désabonnement",
+    "processing": "Traitement de votre demande...",
+    "success": "Vous avez été désabonné des mises à jour de Tech Moncton.",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "noToken": "Aucun jeton de désabonnement fourni."
   },
   "footer": {
     "copyright": "Tech Moncton",

@@ -1,17 +1,18 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+function getCorsHeaders() {
+  const siteUrl = Deno.env.get('SITE_URL') || 'http://localhost:4321';
+  return {
+    'Access-Control-Allow-Origin': siteUrl,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  };
+}
 
-function getEmailHtml(verifyUrl: string): string {
+function getEmailHtml(verifyUrl: string, unsubscribeUrl: string): string {
   return `
     <!DOCTYPE html>
     <html>
-    <head>
-      <meta charset="utf-8">
-    </head>
+    <head><meta charset="utf-8"></head>
     <body style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <h1 style="color: #3b82f6;">Tech Moncton</h1>
       <p>Thanks for subscribing to Tech Moncton updates!</p>
@@ -27,7 +28,8 @@ function getEmailHtml(verifyUrl: string): string {
       </p>
       <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
       <p style="color: #999; font-size: 12px;">
-        If you didn't subscribe to Tech Moncton, you can ignore this email.
+        If you didn't subscribe to Tech Moncton, you can ignore this email or
+        <a href="${unsubscribeUrl}" style="color: #999;">unsubscribe</a>.
       </p>
     </body>
     </html>
@@ -36,11 +38,12 @@ function getEmailHtml(verifyUrl: string): string {
 
 async function sendVerificationEmail(email: string, token: string): Promise<void> {
   const resendApiKey = Deno.env.get('RESEND_API_KEY');
-  const siteUrl = Deno.env.get('SITE_URL') || 'https://techmoncton.github.io/tech-moncton-site';
+  const siteUrl = Deno.env.get('SITE_URL')!;
   const verifyUrl = `${siteUrl}/en/verify?token=${token}`;
-  const fromAddress = Deno.env.get('EMAIL_FROM') || 'Tech Moncton <noreply@techmoncton.com>';
+  const unsubscribeUrl = `${siteUrl}/en/unsubscribe?token=${token}`;
+  const fromAddress = Deno.env.get('EMAIL_FROM') || 'Tech Moncton <noreply@monctontechhive.ca>';
   const subject = 'Verify your Tech Moncton subscription';
-  const html = getEmailHtml(verifyUrl);
+  const html = getEmailHtml(verifyUrl, unsubscribeUrl);
 
   // Production: use Resend
   if (resendApiKey) {
@@ -59,21 +62,29 @@ async function sendVerificationEmail(email: string, token: string): Promise<void
     });
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error('Resend error:', error);
       throw new Error('Failed to send verification email');
     }
     return;
   }
 
-  // Local dev: just log the verification URL
-  console.log(`[DEV] ========================================`);
-  console.log(`[DEV] Verification email for: ${email}`);
-  console.log(`[DEV] Verify URL: ${verifyUrl}`);
-  console.log(`[DEV] ========================================`);
+  // Local dev: log verification URL
+  console.log(`[DEV] Verification URL: ${verifyUrl}`);
+  console.log(`[DEV] Unsubscribe URL: ${unsubscribeUrl}`);
+}
+
+// More robust email validation
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!emailRegex.test(email)) return false;
+  if (email.length > 254) return false;
+  const [localPart] = email.split('@');
+  if (localPart.length > 64) return false;
+  return true;
 }
 
 Deno.serve(async (req) => {
+  const corsHeaders = getCorsHeaders();
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -94,9 +105,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return new Response(
         JSON.stringify({ success: false, message: 'Invalid email format' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -140,7 +149,6 @@ Deno.serve(async (req) => {
         .insert({ email: normalizedEmail, verification_token: token });
 
       if (error) {
-        console.error('Insert error:', error);
         return new Response(
           JSON.stringify({ success: false, message: 'Failed to subscribe' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -159,10 +167,9 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error('Subscribe error:', error);
     return new Response(
       JSON.stringify({ success: false, message: 'An error occurred' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 500, headers: { ...getCorsHeaders(), 'Content-Type': 'application/json' } }
     );
   }
 });

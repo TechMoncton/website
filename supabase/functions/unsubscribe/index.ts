@@ -41,46 +41,36 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Find subscriber by token
+    // Find and delete subscriber by token
     const { data: subscriber, error: selectError } = await supabase
       .from('subscribers')
-      .select('id, verified')
+      .select('id')
       .eq('verification_token', token)
       .single();
 
     if (selectError || !subscriber) {
+      // Return success even if not found (prevent enumeration)
       return new Response(
-        JSON.stringify({ success: false, message: 'Invalid or expired token' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Already verified
-    if (subscriber.verified) {
-      return new Response(
-        JSON.stringify({ success: true, message: 'Email already verified' }),
+        JSON.stringify({ success: true, message: 'You have been unsubscribed' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Mark as verified
-    const { error: updateError } = await supabase
+    // Delete the subscriber
+    const { error: deleteError } = await supabase
       .from('subscribers')
-      .update({
-        verified: true,
-        verified_at: new Date().toISOString(),
-      })
+      .delete()
       .eq('id', subscriber.id);
 
-    if (updateError) {
+    if (deleteError) {
       return new Response(
-        JSON.stringify({ success: false, message: 'Failed to verify' }),
+        JSON.stringify({ success: false, message: 'Failed to unsubscribe' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     return new Response(
-      JSON.stringify({ success: true, message: 'Email verified successfully' }),
+      JSON.stringify({ success: true, message: 'You have been unsubscribed' }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {

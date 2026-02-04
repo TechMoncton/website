@@ -1,9 +1,12 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+function getCorsHeaders() {
+  const siteUrl = Deno.env.get('SITE_URL') || 'http://localhost:4321';
+  return {
+    'Access-Control-Allow-Origin': siteUrl,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  };
+}
 
 interface Event {
   date: string;
@@ -55,7 +58,20 @@ function formatEventDate(dateStr: string): string {
   });
 }
 
-function getEmailHtml(event: Event | null, siteUrl: string, fallbackLink?: string): string {
+function getEmailHtml(
+  event: Event | null,
+  siteUrl: string,
+  unsubscribeUrl: string,
+  fallbackLink?: string
+): string {
+  const footer = `
+    <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+    <p style="color: #999; font-size: 12px;">
+      You're receiving this because you subscribed to Tech Moncton updates.
+      <a href="${unsubscribeUrl}" style="color: #999;">Unsubscribe</a>
+    </p>
+  `;
+
   if (event) {
     return `
       <!DOCTYPE html>
@@ -78,11 +94,7 @@ function getEmailHtml(event: Event | null, siteUrl: string, fallbackLink?: strin
             View All Events
           </a>
         </p>
-
-        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-        <p style="color: #999; font-size: 12px;">
-          You're receiving this because you subscribed to Tech Moncton updates.
-        </p>
+        ${footer}
       </body>
       </html>
     `;
@@ -103,17 +115,15 @@ function getEmailHtml(event: Event | null, siteUrl: string, fallbackLink?: strin
           Learn More
         </a>
       </p>
-
-      <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-      <p style="color: #999; font-size: 12px;">
-        You're receiving this because you subscribed to Tech Moncton updates.
-      </p>
+      ${footer}
     </body>
     </html>
   `;
 }
 
 Deno.serve(async (req) => {
+  const corsHeaders = getCorsHeaders();
+
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
@@ -151,8 +161,6 @@ Deno.serve(async (req) => {
       ? `Upcoming Event: ${nextEvent.topic}`
       : 'Tech Moncton Update';
 
-    const html = getEmailHtml(nextEvent, siteUrl, fallbackLink);
-
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -161,11 +169,10 @@ Deno.serve(async (req) => {
     // Get all verified subscribers
     const { data: subscribers, error } = await supabase
       .from('subscribers')
-      .select('email')
+      .select('email, verification_token')
       .eq('verified', true);
 
     if (error) {
-      console.error('Query error:', error);
       return new Response(
         JSON.stringify({ success: false, message: 'Failed to fetch subscribers' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -180,12 +187,15 @@ Deno.serve(async (req) => {
     }
 
     const resendApiKey = Deno.env.get('RESEND_API_KEY');
-    const fromAddress = Deno.env.get('EMAIL_FROM') || 'Tech Moncton <noreply@techmoncton.com>';
+    const fromAddress = Deno.env.get('EMAIL_FROM') || 'Tech Moncton <noreply@monctontechhive.ca>';
 
     let sent = 0;
     let failed = 0;
 
     for (const subscriber of subscribers) {
+      const unsubscribeUrl = `${siteUrl}/en/unsubscribe?token=${subscriber.verification_token}`;
+      const html = getEmailHtml(nextEvent, siteUrl, unsubscribeUrl, fallbackLink);
+
       if (resendApiKey) {
         try {
           const response = await fetch('https://api.resend.com/emails', {
@@ -206,15 +216,14 @@ Deno.serve(async (req) => {
             sent++;
           } else {
             failed++;
-            console.error(`Failed to send to ${subscriber.email}:`, await response.text());
           }
-        } catch (e) {
+        } catch {
           failed++;
-          console.error(`Error sending to ${subscriber.email}:`, e);
         }
       } else {
         console.log(`[DEV] Would send to: ${subscriber.email}`);
         console.log(`[DEV] Subject: ${subject}`);
+        console.log(`[DEV] Unsubscribe: ${unsubscribeUrl}`);
         sent++;
       }
     }
@@ -230,10 +239,9 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error('Send update error:', error);
     return new Response(
       JSON.stringify({ success: false, message: 'An error occurred' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 500, headers: { ...getCorsHeaders(), 'Content-Type': 'application/json' } }
     );
   }
 });

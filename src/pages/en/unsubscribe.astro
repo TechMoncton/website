@@ -3,31 +3,31 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { useTranslations } from '@/i18n';
 
-const lang = 'fr';
+const lang = 'en';
 const t = useTranslations(lang);
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 ---
 
-<BaseLayout title={t('verify.title')} lang={lang}>
+<BaseLayout title={t('unsubscribe.title')} lang={lang}>
   <div class="container py-8">
     <div class="max-w-md mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle>{t('verify.title')}</CardTitle>
+          <CardTitle>{t('unsubscribe.title')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div id="verify-status">
-            <p class="text-muted-foreground">{t('verify.verifying')}</p>
+          <div id="unsubscribe-status">
+            <p class="text-muted-foreground">{t('unsubscribe.processing')}</p>
           </div>
         </CardContent>
       </Card>
     </div>
   </div>
 
-  <script is:inline define:vars={{ supabaseUrl, translations: { success: t('verify.success'), error: t('verify.error'), noToken: t('verify.noToken') } }}>
+  <script is:inline define:vars={{ supabaseUrl, translations: { success: t('unsubscribe.success'), error: t('unsubscribe.error'), noToken: t('unsubscribe.noToken') } }}>
     (async function() {
-      const statusEl = document.getElementById('verify-status');
+      const statusEl = document.getElementById('unsubscribe-status');
       const params = new URLSearchParams(window.location.search);
       const token = params.get('token');
 
@@ -47,7 +47,7 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
       }
 
       try {
-        const response = await fetch(`${supabaseUrl}/functions/v1/verify?token=${token}`);
+        const response = await fetch(`${supabaseUrl}/functions/v1/unsubscribe?token=${token}`);
         const data = await response.json();
 
         if (response.ok && data.success) {

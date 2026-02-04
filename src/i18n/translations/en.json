@@ -27,7 +27,8 @@
     "noPast": "No past events to display.",
     "speaker": "Speaker",
     "date": "Date",
-    "time": "Time"
+    "time": "Time",
+    "upcomingBadge": "Upcoming"
   },
   "subscribe": {
     "title": "Stay Updated",
@@ -45,6 +46,13 @@
     "success": "Your email has been verified! You're now subscribed to Tech Moncton updates.",
     "error": "Verification failed. The link may be invalid or expired.",
     "noToken": "No verification token provided."
+  },
+  "unsubscribe": {
+    "title": "Unsubscribe",
+    "processing": "Processing your request...",
+    "success": "You have been unsubscribed from Tech Moncton updates.",
+    "error": "Something went wrong. Please try again.",
+    "noToken": "No unsubscribe token provided."
   },
   "footer": {
     "copyright": "Tech Moncton",

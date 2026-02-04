@@ -31,8 +31,18 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
       const params = new URLSearchParams(window.location.search);
       const token = params.get('token');
 
+      function showMessage(message, isError) {
+        statusEl.textContent = '';
+        const div = document.createElement('div');
+        div.className = isError
+          ? 'rounded-lg border border-destructive/50 text-destructive p-4'
+          : 'rounded-lg border border-green-500/50 text-green-700 dark:text-green-400 p-4';
+        div.textContent = message;
+        statusEl.appendChild(div);
+      }
+
       if (!token) {
-        statusEl.innerHTML = `<div class="rounded-lg border border-destructive/50 text-destructive p-4">${translations.noToken}</div>`;
+        showMessage(translations.noToken, true);
         return;
       }
 
@@ -41,12 +51,12 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
         const data = await response.json();
 
         if (response.ok && data.success) {
-          statusEl.innerHTML = `<div class="rounded-lg border border-green-500/50 text-green-700 p-4">${translations.success}</div>`;
+          showMessage(translations.success, false);
         } else {
-          statusEl.innerHTML = `<div class="rounded-lg border border-destructive/50 text-destructive p-4">${translations.error}</div>`;
+          showMessage(translations.error, true);
         }
       } catch (error) {
-        statusEl.innerHTML = `<div class="rounded-lg border border-destructive/50 text-destructive p-4">${translations.error}</div>`;
+        showMessage(translations.error, true);
       }
     })();
   </script>
