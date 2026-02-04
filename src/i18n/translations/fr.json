@@ -1,0 +1,53 @@
+{
+  "site": {
+    "title": "Tech Moncton",
+    "description": "Rencontres de la communauté technologique à Moncton, Nouveau-Brunswick"
+  },
+  "nav": {
+    "home": "Accueil",
+    "events": "Événements",
+    "subscribe": "S'abonner"
+  },
+  "home": {
+    "hero": {
+      "title": "Tech Moncton",
+      "subtitle": "Bâtir la communauté technologique du Grand Moncton"
+    },
+    "upcoming": {
+      "title": "Événements à venir",
+      "viewAll": "Voir tous les événements",
+      "noEvents": "Aucun événement prévu. Revenez bientôt!"
+    }
+  },
+  "events": {
+    "title": "Événements",
+    "upcoming": "Événements à venir",
+    "past": "Événements passés",
+    "noUpcoming": "Aucun événement à venir.",
+    "noPast": "Aucun événement passé à afficher.",
+    "speaker": "Présentateur",
+    "date": "Date",
+    "time": "Heure"
+  },
+  "subscribe": {
+    "title": "Restez informé",
+    "description": "Abonnez-vous à notre infolettre pour être informé des prochains événements.",
+    "placeholder": "votre@courriel.com",
+    "button": "S'abonner",
+    "submitting": "Inscription en cours...",
+    "success": "Merci! Veuillez vérifier votre courriel pour confirmer votre abonnement.",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "invalidEmail": "Veuillez entrer une adresse courriel valide."
+  },
+  "verify": {
+    "title": "Vérification du courriel",
+    "verifying": "Vérification de votre courriel...",
+    "success": "Votre courriel a été vérifié! Vous êtes maintenant abonné aux mises à jour de Tech Moncton.",
+    "error": "La vérification a échoué. Le lien peut être invalide ou expiré.",
+    "noToken": "Aucun jeton de vérification fourni."
+  },
+  "footer": {
+    "copyright": "Tech Moncton",
+    "github": "GitHub"
+  }
+}

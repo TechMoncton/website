@@ -1,0 +1,46 @@
+---
+import { LanguageSwitcher } from '@/components/react/LanguageSwitcher';
+import { ThemeToggle } from '@/components/react/ThemeToggle';
+import type { Language } from '@/i18n';
+import { getLocalizedPath } from '@/i18n';
+
+interface Props {
+  lang: Language;
+  translations: {
+    home: string;
+    events: string;
+    subscribe: string;
+  };
+}
+
+const { lang, translations } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+  <div class="container flex h-14 items-center">
+    <div class="mr-4 flex">
+      <a href={getLocalizedPath('', lang)} class="mr-6 flex items-center space-x-2">
+        <span class="font-bold">Tech Moncton</span>
+      </a>
+      <nav class="flex items-center space-x-6 text-sm font-medium">
+        <a
+          href={getLocalizedPath('', lang)}
+          class="transition-colors hover:text-foreground/80 text-foreground/60"
+        >
+          {translations.home}
+        </a>
+        <a
+          href={getLocalizedPath('events', lang)}
+          class="transition-colors hover:text-foreground/80 text-foreground/60"
+        >
+          {translations.events}
+        </a>
+      </nav>
+    </div>
+    <div class="flex flex-1 items-center justify-end space-x-2">
+      <ThemeToggle client:load />
+      <LanguageSwitcher client:load currentLang={lang} currentPath={currentPath} />
+    </div>
+  </div>
+</header>

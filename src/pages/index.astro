@@ -1,0 +1,37 @@
+---
+// Redirect to appropriate language based on browser preference
+// This page handles the root URL redirect
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script is:inline>
+      (function() {
+        // Check localStorage first
+        var stored = localStorage.getItem('preferredLanguage');
+        if (stored && (stored === 'en' || stored === 'fr')) {
+          window.location.replace('/' + stored);
+          return;
+        }
+
+        // Check browser preference
+        var browserLang = navigator.language.split('-')[0];
+        var lang = (browserLang === 'fr') ? 'fr' : 'en';
+
+        // Store preference
+        localStorage.setItem('preferredLanguage', lang);
+
+        // Redirect
+        window.location.replace('/' + lang);
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0;url=/en" />
+    </noscript>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>

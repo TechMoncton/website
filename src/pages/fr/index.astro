@@ -1,0 +1,77 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import EventList from '@/components/astro/EventList.astro';
+import { SubscribeForm } from '@/components/react/SubscribeForm';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useTranslations } from '@/i18n';
+import { fetchAllEvents, getUpcomingEvents } from '@/lib/events';
+import { getLocalizedPath } from '@/i18n';
+
+const lang = 'fr';
+const t = useTranslations(lang);
+
+// Fetch events at build time
+const allEvents = await fetchAllEvents();
+const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+---
+
+<BaseLayout title={t('nav.home')} lang={lang}>
+  <div class="container py-8 space-y-12">
+    <!-- Hero Section -->
+    <section class="text-center py-12">
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+        {t('home.hero.title')}
+      </h1>
+      <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
+        {t('home.hero.subtitle')}
+      </p>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold">{t('home.upcoming.title')}</h2>
+        <a href={getLocalizedPath('events', lang)}>
+          <Button variant="outline">{t('home.upcoming.viewAll')}</Button>
+        </a>
+      </div>
+      <EventList
+        events={upcomingEvents}
+        translations={{
+          speaker: t('events.speaker'),
+          date: t('events.date'),
+          time: t('events.time'),
+        }}
+        emptyMessage={t('home.upcoming.noEvents')}
+        lang={lang}
+      />
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="max-w-xl mx-auto">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('subscribe.title')}</CardTitle>
+          <CardDescription>{t('subscribe.description')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SubscribeForm
+            client:load
+            translations={{
+              placeholder: t('subscribe.placeholder'),
+              button: t('subscribe.button'),
+              submitting: t('subscribe.submitting'),
+              success: t('subscribe.success'),
+              error: t('subscribe.error'),
+              invalidEmail: t('subscribe.invalidEmail'),
+            }}
+            supabaseUrl={supabaseUrl}
+          />
+        </CardContent>
+      </Card>
+    </section>
+  </div>
+</BaseLayout>

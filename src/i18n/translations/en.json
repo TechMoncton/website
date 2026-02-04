@@ -1,0 +1,53 @@
+{
+  "site": {
+    "title": "Tech Moncton",
+    "description": "Tech community meetups in Moncton, New Brunswick"
+  },
+  "nav": {
+    "home": "Home",
+    "events": "Events",
+    "subscribe": "Subscribe"
+  },
+  "home": {
+    "hero": {
+      "title": "Tech Moncton",
+      "subtitle": "Building the tech community in Greater Moncton"
+    },
+    "upcoming": {
+      "title": "Upcoming Events",
+      "viewAll": "View all events",
+      "noEvents": "No upcoming events scheduled. Check back soon!"
+    }
+  },
+  "events": {
+    "title": "Events",
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "noUpcoming": "No upcoming events scheduled.",
+    "noPast": "No past events to display.",
+    "speaker": "Speaker",
+    "date": "Date",
+    "time": "Time"
+  },
+  "subscribe": {
+    "title": "Stay Updated",
+    "description": "Subscribe to our newsletter to get notified about upcoming events.",
+    "placeholder": "your@email.com",
+    "button": "Subscribe",
+    "submitting": "Subscribing...",
+    "success": "Thanks! Please check your email to verify your subscription.",
+    "error": "Something went wrong. Please try again.",
+    "invalidEmail": "Please enter a valid email address."
+  },
+  "verify": {
+    "title": "Email Verification",
+    "verifying": "Verifying your email...",
+    "success": "Your email has been verified! You're now subscribed to Tech Moncton updates.",
+    "error": "Verification failed. The link may be invalid or expired.",
+    "noToken": "No verification token provided."
+  },
+  "footer": {
+    "copyright": "Tech Moncton",
+    "github": "GitHub"
+  }
+}

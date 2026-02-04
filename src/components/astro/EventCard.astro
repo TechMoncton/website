@@ -1,0 +1,54 @@
+---
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import type { Event } from '@/lib/events';
+import { isUpcoming, parseEventDate } from '@/lib/events';
+
+interface Props {
+  event: Event;
+  translations: {
+    speaker: string;
+    date: string;
+    time: string;
+  };
+  lang: string;
+}
+
+const { event, translations, lang } = Astro.props;
+const upcoming = isUpcoming(event);
+
+// Format date for display
+const eventDate = parseEventDate(event.date);
+const formattedDate = eventDate.toLocaleDateString(lang === 'fr' ? 'fr-CA' : 'en-CA', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Card className={upcoming ? 'border-primary/50' : ''}>
+  <CardHeader>
+    <div class="flex items-start justify-between gap-2">
+      <CardTitle className="text-lg">{event.topic}</CardTitle>
+      {upcoming && (
+        <Badge variant="default" className="shrink-0">
+          {lang === 'fr' ? 'À venir' : 'Upcoming'}
+        </Badge>
+      )}
+    </div>
+    <CardDescription>{event.presentation}</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <dl class="grid grid-cols-2 gap-2 text-sm">
+      <div>
+        <dt class="text-muted-foreground">{translations.date}</dt>
+        <dd class="font-medium">{formattedDate}</dd>
+      </div>
+      <div>
+        <dt class="text-muted-foreground">{translations.time}</dt>
+        <dd class="font-medium">{event.time}</dd>
+      </div>
+    </dl>
+  </CardContent>
+</Card>

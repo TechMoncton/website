@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import EventList from '@/components/astro/EventList.astro';
+import { useTranslations } from '@/i18n';
+import { fetchAllEvents, getUpcomingEvents, getPastEvents } from '@/lib/events';
+
+const lang = 'fr';
+const t = useTranslations(lang);
+
+// Fetch events at build time
+const allEvents = await fetchAllEvents();
+const upcomingEvents = getUpcomingEvents(allEvents);
+const pastEvents = getPastEvents(allEvents);
+
+const eventTranslations = {
+  speaker: t('events.speaker'),
+  date: t('events.date'),
+  time: t('events.time'),
+};
+---
+
+<BaseLayout title={t('events.title')} lang={lang}>
+  <div class="container py-8 space-y-12">
+    <h1 class="text-3xl font-bold">{t('events.title')}</h1>
+
+    <!-- Upcoming Events -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-6">{t('events.upcoming')}</h2>
+      <EventList
+        events={upcomingEvents}
+        translations={eventTranslations}
+        emptyMessage={t('events.noUpcoming')}
+        lang={lang}
+      />
+    </section>
+
+    <!-- Past Events -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-6">{t('events.past')}</h2>
+      <EventList
+        events={pastEvents}
+        translations={eventTranslations}
+        emptyMessage={t('events.noPast')}
+        lang={lang}
+      />
+    </section>
+  </div>
+</BaseLayout>

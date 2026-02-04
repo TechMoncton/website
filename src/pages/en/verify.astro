@@ -1,0 +1,53 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { useTranslations } from '@/i18n';
+
+const lang = 'en';
+const t = useTranslations(lang);
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+---
+
+<BaseLayout title={t('verify.title')} lang={lang}>
+  <div class="container py-8">
+    <div class="max-w-md mx-auto">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('verify.title')}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div id="verify-status">
+            <p class="text-muted-foreground">{t('verify.verifying')}</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ supabaseUrl, translations: { success: t('verify.success'), error: t('verify.error'), noToken: t('verify.noToken') } }}>
+    (async function() {
+      const statusEl = document.getElementById('verify-status');
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+
+      if (!token) {
+        statusEl.innerHTML = `<div class="rounded-lg border border-destructive/50 text-destructive p-4">${translations.noToken}</div>`;
+        return;
+      }
+
+      try {
+        const response = await fetch(`${supabaseUrl}/functions/v1/verify?token=${token}`);
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          statusEl.innerHTML = `<div class="rounded-lg border border-green-500/50 text-green-700 p-4">${translations.success}</div>`;
+        } else {
+          statusEl.innerHTML = `<div class="rounded-lg border border-destructive/50 text-destructive p-4">${translations.error}</div>`;
+        }
+      } catch (error) {
+        statusEl.innerHTML = `<div class="rounded-lg border border-destructive/50 text-destructive p-4">${translations.error}</div>`;
+      }
+    })();
+  </script>
+</BaseLayout>
