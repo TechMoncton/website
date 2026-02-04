@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 1 * * *'  # Daily at 1am UTC (6am AST)
   workflow_dispatch:
   # Optionally trigger when Meetups repo is updated
   repository_dispatch:

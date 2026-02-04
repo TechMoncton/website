@@ -213,35 +213,7 @@ If using GitHub Actions for scheduled sends, also add to repository secrets:
 
 Events are fetched at build time from the [TechMoncton/Meetups](https://github.com/TechMoncton/Meetups) repository.
 
-### Triggering a Rebuild When Events Change
-
-The deploy workflow listens for `repository_dispatch` events. To auto-rebuild when the Meetups repo is updated, add this workflow to **TechMoncton/Meetups**:
-
-```yaml
-# .github/workflows/notify-website.yml
-name: Notify Website
-
-on:
-  push:
-    paths:
-      - 'MeetUps */*.json'
-
-jobs:
-  notify:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger website rebuild
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.WEBSITE_DISPATCH_TOKEN }}" \
-            https://api.github.com/repos/TechMoncton/tech-moncton-site/dispatches \
-            -d '{"event_type":"meetups-updated"}'
-```
-
-This requires a `WEBSITE_DISPATCH_TOKEN` secret in the Meetups repo with `repo` scope for the website repo.
-
-Alternatively, manually trigger a rebuild from Actions > Deploy to GitHub Pages > Run workflow.
+The site automatically rebuilds daily at 6am AST to pick up any event changes. If you need changes to appear sooner, you can manually trigger a rebuild from **Actions > Deploy to GitHub Pages > Run workflow**.
 
 ## License
 
