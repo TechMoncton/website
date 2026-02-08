@@ -34,25 +34,7 @@
     "title": "Restez informé",
     "description": "Abonnez-vous à notre infolettre pour être informé des prochains événements.",
     "placeholder": "votre@courriel.com",
-    "button": "S'abonner",
-    "submitting": "Inscription en cours...",
-    "success": "Merci! Veuillez vérifier votre courriel pour confirmer votre abonnement.",
-    "error": "Une erreur s'est produite. Veuillez réessayer.",
-    "invalidEmail": "Veuillez entrer une adresse courriel valide."
-  },
-  "verify": {
-    "title": "Vérification du courriel",
-    "verifying": "Vérification de votre courriel...",
-    "success": "Votre courriel a été vérifié! Vous êtes maintenant abonné aux mises à jour de Tech Moncton.",
-    "error": "La vérification a échoué. Le lien peut être invalide ou expiré.",
-    "noToken": "Aucun jeton de vérification fourni."
-  },
-  "unsubscribe": {
-    "title": "Désabonnement",
-    "processing": "Traitement de votre demande...",
-    "success": "Vous avez été désabonné des mises à jour de Tech Moncton.",
-    "error": "Une erreur s'est produite. Veuillez réessayer.",
-    "noToken": "Aucun jeton de désabonnement fourni."
+    "button": "S'abonner"
   },
   "footer": {
     "copyright": "Tech Moncton",

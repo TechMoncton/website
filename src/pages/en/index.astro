@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import EventList from '@/components/astro/EventList.astro';
-import { SubscribeForm } from '@/components/react/SubscribeForm';
+import SubscribeForm from '@/components/astro/SubscribeForm.astro';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from '@/i18n';
@@ -14,8 +14,6 @@ const t = useTranslations(lang);
 // Fetch events at build time
 const allEvents = await fetchAllEvents();
 const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
-
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 ---
 
 <BaseLayout title={t('nav.home')} lang={lang}>
@@ -59,18 +57,7 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
           <CardDescription>{t('subscribe.description')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <SubscribeForm
-            client:load
-            translations={{
-              placeholder: t('subscribe.placeholder'),
-              button: t('subscribe.button'),
-              submitting: t('subscribe.submitting'),
-              success: t('subscribe.success'),
-              error: t('subscribe.error'),
-              invalidEmail: t('subscribe.invalidEmail'),
-            }}
-            supabaseUrl={supabaseUrl}
-          />
+          <SubscribeForm lang={lang} />
         </CardContent>
       </Card>
     </section>

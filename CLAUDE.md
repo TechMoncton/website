@@ -4,7 +4,7 @@ This file provides context for Claude Code when working on this project.
 
 ## Project Overview
 
-Tech Moncton website - a bilingual community site for tech meetups in Moncton, New Brunswick. Built with Astro, React, and Supabase Edge Functions.
+Tech Moncton website - a bilingual community site for tech meetups in Moncton, New Brunswick. Built with Astro, React, and Tailwind CSS. Newsletter subscriptions are handled by Mailchimp.
 
 ## Key Architecture Decisions
 
@@ -15,13 +15,12 @@ Events are fetched directly from the [TechMoncton/Meetups](https://github.com/Te
 
 Event schema: `{ date, time, topic, presentation }`
 
-### No Supabase Client on Frontend
+### Newsletter (Mailchimp)
 
-The frontend does NOT use `@supabase/supabase-js`. All Supabase interactions go through Edge Functions via direct `fetch()` calls. This simplifies the architecture and avoids exposing the anon key.
+The subscribe form POSTs directly to Mailchimp's embedded form endpoint. No backend needed — Mailchimp handles verification, unsubscription, and sending updates natively.
 
-### Database Access
-
-The `subscribers` table has Row Level Security (RLS) enabled with NO policies for anonymous users. All database operations happen through Edge Functions using the `service_role` key.
+Config comes from a single environment variable:
+- `PUBLIC_MAILCHIMP_URL` — full Mailchimp form action URL (includes `u`, `id`, `f_id` as query params)
 
 ### Internationalization
 
@@ -33,15 +32,8 @@ The `subscribers` table has Row Level Security (RLS) enabled with NO policies fo
 ## Development Commands
 
 ```bash
-# Start everything for local development:
-supabase start                              # Start local Supabase
-supabase functions serve --env-file supabase/.env  # Start Edge Functions
 npm run dev                                 # Start Astro dev server
-
-# Useful commands:
 npm run build                               # Build site (runs astro check first)
-npm run send-update                         # Trigger update email (local)
-supabase db reset                           # Reset database with migrations
 ```
 
 ## File Locations
@@ -49,30 +41,9 @@ supabase db reset                           # Reset database with migrations
 | What | Where |
 |------|-------|
 | Translations | `src/i18n/translations/*.json` |
-| Edge Functions | `supabase/functions/*/index.ts` |
-| Database schema | `supabase/migrations/*.sql` |
 | shadcn components | `src/components/ui/*.tsx` |
 | Page components | `src/components/astro/*.astro` |
 | React components | `src/components/react/*.tsx` |
-
-## Edge Functions Environment
-
-Edge Functions run on Deno, not Node.js. Key differences:
-- Use `Deno.env.get()` instead of `process.env`
-- Import from URLs: `import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'`
-- The `supabase/` directory is excluded from TypeScript checking (see `tsconfig.json`)
-
-### Required Environment Variables for Edge Functions
-
-```
-SITE_URL              # Base URL for links in emails
-SUPABASE_URL          # Auto-provided by Supabase
-SUPABASE_SERVICE_ROLE_KEY  # Auto-provided by Supabase
-ADMIN_KEY             # For send-update authentication
-RESEND_API_KEY        # For sending emails (optional locally)
-UPDATE_FALLBACK_LINK  # Fallback URL if no upcoming events
-EMAIL_FROM            # From address (default: Tech Moncton <noreply@monctontechhive.ca>)
-```
 
 ## Common Tasks
 
@@ -89,60 +60,17 @@ EMAIL_FROM            # From address (default: Tech Moncton <noreply@monctontech
 3. Add nav link in `Header.astro` if needed
 4. Add translations for page content
 
-### Adding a New Edge Function
+## Environment Variables
 
-1. Create `supabase/functions/function-name/index.ts`
-2. Add config to `supabase/config.toml`:
-   ```toml
-   [functions.function-name]
-   enabled = true
-   verify_jwt = false
-   ```
-3. Restart `supabase functions serve`
+Set in `.env` locally, and as GitHub repository variables for production builds:
 
-## Sending Update Emails
-
-The `send-update` Edge Function sends emails to all verified subscribers with the next upcoming event (or a fallback link if no events).
-
-### Local Testing
-```bash
-npm run send-update
 ```
-This reads `ADMIN_KEY` from `supabase/.env` automatically.
-
-### Production Setup
-
-1. Generate a secure admin key:
-   ```bash
-   openssl rand -hex 32
-   ```
-
-2. Set the key in Supabase Edge Functions secrets (Dashboard > Edge Functions > Secrets):
-   - `ADMIN_KEY` = the generated key
-   - `RESEND_API_KEY` = your Resend API key
-   - `SITE_URL` = `https://monctontechhive.ca`
-   - `EMAIL_FROM` = `Tech Moncton <noreply@monctontechhive.ca>`
-   - `UPDATE_FALLBACK_LINK` = fallback URL if no events
-
-3. Trigger manually:
-   ```bash
-   curl -X POST https://YOUR_PROJECT.supabase.co/functions/v1/send-update \
-     -H "x-admin-key: YOUR_ADMIN_KEY"
-   ```
-
-4. For automated monthly sends, set up a GitHub Actions workflow or external cron service.
-
-## Security Notes
-
-- CORS is restricted to `SITE_URL` (not `*`)
-- All user-facing messages use `textContent` (not `innerHTML`) to prevent XSS
-- Email validation includes length checks and format validation
-- Unsubscribe returns success even for invalid tokens (prevents enumeration)
-- `verification_token` is used for both verify and unsubscribe (same token)
+PUBLIC_MAILCHIMP_URL   # Full Mailchimp form action URL (with u, id, f_id query params)
+PUBLIC_SITE_URL        # Base URL of the site
+```
 
 ## Production
 
 - Site hosted on GitHub Pages
-- Edge Functions hosted on Supabase
 - Domain: monctontechhive.ca
-- Emails sent via Resend
+- Newsletter managed via Mailchimp
