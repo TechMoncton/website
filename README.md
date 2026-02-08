@@ -85,6 +85,7 @@ PUBLIC_SITE_URL=http://localhost:4321
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
+| `npm run send-campaign` | Send a Mailchimp campaign with the next upcoming event |
 
 ## Deployment
 
@@ -98,6 +99,19 @@ Set these as GitHub repository variables (Settings > Secrets and variables > Act
 |----------|-------------|---------|
 | `PUBLIC_MAILCHIMP_URL` | Full Mailchimp form action URL | `https://example.us1.list-manage.com/subscribe/post?u=...&id=...&f_id=...` |
 | `PUBLIC_SITE_URL` | Production site URL | `https://monctontechhive.ca` |
+
+### Campaign Secrets
+
+Set these as GitHub repository secrets (Settings > Secrets and variables > Actions > Secrets) for the **Send Campaign** workflow:
+
+| Secret | Description |
+|--------|-------------|
+| `MAILCHIMP_API_KEY` | Mailchimp API key (includes dc suffix, e.g. `xxx-us19`) |
+| `MAILCHIMP_LIST_ID` | Mailchimp audience / list ID |
+| `MAILCHIMP_REPLY_TO` | Reply-to email address for campaigns |
+| `UPDATE_FALLBACK_LINK` | (Optional) Fallback URL when no upcoming events |
+
+To send a campaign, go to **Actions > Send Campaign > Run workflow**.
 
 ## Data Source
 

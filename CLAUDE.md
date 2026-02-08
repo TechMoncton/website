@@ -60,6 +60,17 @@ npm run build                               # Build site (runs astro check first
 3. Add nav link in `Header.astro` if needed
 4. Add translations for page content
 
+## Sending a Campaign
+
+`npm run send-campaign` creates and sends a Mailchimp campaign with the next upcoming event. It can also be triggered manually from **Actions > Send Campaign** in GitHub.
+
+Env vars (set as GitHub secrets for the workflow):
+- `MAILCHIMP_API_KEY` — API key (includes dc suffix, e.g. `xxx-us19`)
+- `MAILCHIMP_LIST_ID` — audience/list ID
+- `MAILCHIMP_REPLY_TO` — reply-to email address
+- `UPDATE_FALLBACK_LINK` — (optional) fallback URL when no upcoming events
+- `PUBLIC_SITE_URL` — base site URL (defaults to `https://monctontechhive.ca`)
+
 ## Environment Variables
 
 Set in `.env` locally, and as GitHub repository variables for production builds:
@@ -67,6 +78,15 @@ Set in `.env` locally, and as GitHub repository variables for production builds:
 ```
 PUBLIC_MAILCHIMP_URL   # Full Mailchimp form action URL (with u, id, f_id query params)
 PUBLIC_SITE_URL        # Base URL of the site
+```
+
+Campaign-specific secrets (set in GitHub Settings > Secrets):
+
+```
+MAILCHIMP_API_KEY      # Mailchimp API key (with dc suffix)
+MAILCHIMP_LIST_ID      # Audience / list ID
+MAILCHIMP_REPLY_TO     # Reply-to email for campaigns
+UPDATE_FALLBACK_LINK   # Fallback URL when no upcoming events
 ```
 
 ## Production
