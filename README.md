@@ -8,7 +8,7 @@ A bilingual (English/French) website for Tech Moncton community meetups, built w
 
 - Bilingual support (EN/FR) with browser language detection
 - Events display from [TechMoncton/Meetups](https://github.com/TechMoncton/Meetups) GitHub repo
-- Newsletter subscription via Mailchimp
+- Newsletter subscription via EmailOctopus
 - Dark mode (follows system preference)
 - Responsive design with shadcn/ui components
 
@@ -16,7 +16,7 @@ A bilingual (English/French) website for Tech Moncton community meetups, built w
 
 - **Framework:** Astro 5 with React 19
 - **Styling:** Tailwind CSS + shadcn/ui
-- **Newsletter:** Mailchimp
+- **Newsletter:** EmailOctopus
 - **Hosting:** GitHub Pages
 
 ## Project Structure
@@ -60,7 +60,7 @@ src/
    cp .env.example .env
    ```
 
-4. Update `.env` with your Mailchimp values (from Mailchimp > Audience > Signup forms > Embedded forms).
+4. Update `.env` with your EmailOctopus form ID (see [EMAILOCTOPUS.md](EMAILOCTOPUS.md) for setup instructions).
 
 5. Start the dev server:
    ```bash
@@ -74,7 +74,7 @@ The site will be available at http://localhost:4321
 ### Frontend (`.env`)
 
 ```
-PUBLIC_MAILCHIMP_URL=https://example.us1.list-manage.com/subscribe/post?u=XXXXX&id=XXXXX&f_id=XXXXX
+PUBLIC_EMAILOCTOPUS_FORM_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 PUBLIC_SITE_URL=http://localhost:4321
 ```
 
@@ -85,7 +85,6 @@ PUBLIC_SITE_URL=http://localhost:4321
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
-| `npm run send-campaign` | Send a Mailchimp campaign with the next upcoming event |
 
 ## Deployment
 
@@ -97,21 +96,8 @@ Set these as GitHub repository variables (Settings > Secrets and variables > Act
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `PUBLIC_MAILCHIMP_URL` | Full Mailchimp form action URL | `https://example.us1.list-manage.com/subscribe/post?u=...&id=...&f_id=...` |
+| `PUBLIC_EMAILOCTOPUS_FORM_ID` | EmailOctopus form ID (UUID) | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
 | `PUBLIC_SITE_URL` | Production site URL | `https://monctontechhive.ca` |
-
-### Campaign Secrets
-
-Set these as GitHub repository secrets (Settings > Secrets and variables > Actions > Secrets) for the **Send Campaign** workflow:
-
-| Secret | Description |
-|--------|-------------|
-| `MAILCHIMP_API_KEY` | Mailchimp API key (includes dc suffix, e.g. `xxx-us19`) |
-| `MAILCHIMP_LIST_ID` | Mailchimp audience / list ID |
-| `MAILCHIMP_REPLY_TO` | Reply-to email address for campaigns |
-| `UPDATE_FALLBACK_LINK` | (Optional) Fallback URL when no upcoming events |
-
-To send a campaign, go to **Actions > Send Campaign > Run workflow**.
 
 ## Data Source
 

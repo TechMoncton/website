@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          PUBLIC_MAILCHIMP_URL: ${{ vars.PUBLIC_MAILCHIMP_URL }}
+          PUBLIC_EMAILOCTOPUS_FORM_ID: ${{ vars.PUBLIC_EMAILOCTOPUS_FORM_ID }}
           PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
 
       - name: Upload artifact

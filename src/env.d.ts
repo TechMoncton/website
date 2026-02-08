@@ -1,7 +1,7 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
-  readonly PUBLIC_MAILCHIMP_URL: string;
+  readonly PUBLIC_EMAILOCTOPUS_FORM_ID: string;
   readonly PUBLIC_SITE_URL: string;
 }
 

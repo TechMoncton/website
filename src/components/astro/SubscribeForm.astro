@@ -1,37 +1,7 @@
 ---
-import { useTranslations } from '@/i18n';
-
-interface Props {
-  lang: 'en' | 'fr';
-}
-
-const { lang } = Astro.props;
-const t = useTranslations(lang);
-
-const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL;
-const params = new URL(mailchimpUrl).searchParams;
-const u = params.get('u');
-const id = params.get('id');
+const formId = import.meta.env.PUBLIC_EMAILOCTOPUS_FORM_ID;
 ---
 
-<form action={mailchimpUrl} method="post" target="_blank" class="space-y-4">
-  <div class="flex flex-col sm:flex-row gap-2">
-    <input
-      type="email"
-      name="EMAIL"
-      placeholder={t('subscribe.placeholder')}
-      required
-      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:text-sm flex-1"
-    />
-    <button
-      type="submit"
-      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-    >
-      {t('subscribe.button')}
-    </button>
-  </div>
-  <!-- Bot protection -->
-  <div style="position: absolute; left: -5000px;" aria-hidden="true">
-    <input type="text" name={`b_${u}_${id}`} tabindex="-1" value="" />
-  </div>
-</form>
+<div class="emailoctopus-form-wrapper">
+  <script is:inline src={`https://eomail1.com/form/${formId}.js`} data-form={formId} async></script>
+</div>

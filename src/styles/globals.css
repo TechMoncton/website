@@ -57,3 +57,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* EmailOctopus form dark mode overrides (!important needed to beat injected inline styles) */
+.dark [data-form] .emailoctopus-form-wrapper {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark [data-form] input[type="email"],
+.dark [data-form] input[type="text"],
+.dark [data-form] select,
+.dark [data-form] textarea {
+  background-color: hsl(var(--input)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark [data-form] input::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+.dark [data-form] .emailoctopus-success-message,
+.dark [data-form] .emailoctopus-error-message {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark [data-form] .mastfoot a {
+  color: hsl(var(--muted-foreground)) !important;
+}

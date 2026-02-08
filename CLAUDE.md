@@ -4,7 +4,7 @@ This file provides context for Claude Code when working on this project.
 
 ## Project Overview
 
-Tech Moncton website - a bilingual community site for tech meetups in Moncton, New Brunswick. Built with Astro, React, and Tailwind CSS. Newsletter subscriptions are handled by Mailchimp.
+Tech Moncton website - a bilingual community site for tech meetups in Moncton, New Brunswick. Built with Astro, React, and Tailwind CSS. Newsletter subscriptions are handled by EmailOctopus.
 
 ## Key Architecture Decisions
 
@@ -15,12 +15,12 @@ Events are fetched directly from the [TechMoncton/Meetups](https://github.com/Te
 
 Event schema: `{ date, time, topic, presentation }`
 
-### Newsletter (Mailchimp)
+### Newsletter (EmailOctopus)
 
-The subscribe form POSTs directly to Mailchimp's embedded form endpoint. No backend needed — Mailchimp handles verification, unsubscription, and sending updates natively.
+The subscribe form uses an EmailOctopus JavaScript embed. No backend needed — EmailOctopus handles form rendering, validation, unsubscribe compliance, and GDPR. Campaigns are created and sent manually through the EmailOctopus dashboard.
 
 Config comes from a single environment variable:
-- `PUBLIC_MAILCHIMP_URL` — full Mailchimp form action URL (includes `u`, `id`, `f_id` as query params)
+- `PUBLIC_EMAILOCTOPUS_FORM_ID` — UUID from EmailOctopus (Forms > Embed)
 
 ### Internationalization
 
@@ -60,37 +60,17 @@ npm run build                               # Build site (runs astro check first
 3. Add nav link in `Header.astro` if needed
 4. Add translations for page content
 
-## Sending a Campaign
-
-`npm run send-campaign` creates and sends a Mailchimp campaign with the next upcoming event. It can also be triggered manually from **Actions > Send Campaign** in GitHub.
-
-Env vars (set as GitHub secrets for the workflow):
-- `MAILCHIMP_API_KEY` — API key (includes dc suffix, e.g. `xxx-us19`)
-- `MAILCHIMP_LIST_ID` — audience/list ID
-- `MAILCHIMP_REPLY_TO` — reply-to email address
-- `UPDATE_FALLBACK_LINK` — (optional) fallback URL when no upcoming events
-- `PUBLIC_SITE_URL` — base site URL (defaults to `https://monctontechhive.ca`)
-
 ## Environment Variables
 
 Set in `.env` locally, and as GitHub repository variables for production builds:
 
 ```
-PUBLIC_MAILCHIMP_URL   # Full Mailchimp form action URL (with u, id, f_id query params)
-PUBLIC_SITE_URL        # Base URL of the site
-```
-
-Campaign-specific secrets (set in GitHub Settings > Secrets):
-
-```
-MAILCHIMP_API_KEY      # Mailchimp API key (with dc suffix)
-MAILCHIMP_LIST_ID      # Audience / list ID
-MAILCHIMP_REPLY_TO     # Reply-to email for campaigns
-UPDATE_FALLBACK_LINK   # Fallback URL when no upcoming events
+PUBLIC_EMAILOCTOPUS_FORM_ID   # UUID from EmailOctopus (Forms > Embed)
+PUBLIC_SITE_URL               # Base URL of the site
 ```
 
 ## Production
 
 - Site hosted on GitHub Pages
 - Domain: monctontechhive.ca
-- Newsletter managed via Mailchimp
+- Newsletter managed via EmailOctopus
