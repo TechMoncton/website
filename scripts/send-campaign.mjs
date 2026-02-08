@@ -183,7 +183,8 @@ async function mailchimp(method, path, body) {
     },
     body: body ? JSON.stringify(body) : undefined,
   });
-  const data = await res.json();
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : {};
   if (!res.ok) {
     console.error('Mailchimp API error:', JSON.stringify(data, null, 2));
     throw new Error(`Mailchimp ${method} ${path} failed: ${res.status}`);
