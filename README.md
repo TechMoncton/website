@@ -1,6 +1,6 @@
-# Tech Moncton Website
+# Moncton Tech Hive Website
 
-A bilingual (English/French) website for Tech Moncton community meetups, built with Astro, React, and Tailwind CSS.
+A bilingual (English/French) website for Moncton Tech Hive community meetups, built with Astro, React, and Tailwind CSS.
 
 **Live site:** https://monctontechhive.ca
 

@@ -1,4 +1,4 @@
-# Setting up EmailOctopus for Tech Moncton Site
+# Setting up EmailOctopus for Moncton Tech Hive Site
 
 ## 1. Create an EmailOctopus account
 

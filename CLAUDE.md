@@ -4,7 +4,7 @@ This file provides context for Claude Code when working on this project.
 
 ## Project Overview
 
-Tech Moncton website - a bilingual community site for tech meetups in Moncton, New Brunswick. Built with Astro, React, and Tailwind CSS. Newsletter subscriptions are handled by EmailOctopus.
+Moncton Tech Hive website - a bilingual community site for tech meetups in Moncton, New Brunswick. Built with Astro, React, and Tailwind CSS. Newsletter subscriptions are handled by EmailOctopus.
 
 ## Key Architecture Decisions
 

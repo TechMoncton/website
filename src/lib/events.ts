@@ -30,7 +30,7 @@ export async function fetchEventsForYear(year: number): Promise<Event[]> {
 
 export async function fetchAllEvents(): Promise<Event[]> {
   const currentYear = new Date().getFullYear();
-  // Fetch from 2024 onwards (when Tech Moncton started tracking in GitHub)
+  // Fetch from 2024 onwards (when Moncton Tech Hive started tracking in GitHub)
   const startYear = 2024;
   const years = [];
   for (let year = startYear; year <= currentYear + 1; year++) {

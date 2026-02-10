@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Tech Moncton",
+    "title": "Moncton Tech Hive",
     "description": "Tech community meetups in Moncton, New Brunswick"
   },
   "nav": {
@@ -10,7 +10,7 @@
   },
   "home": {
     "hero": {
-      "title": "Tech Moncton",
+      "title": "Moncton Tech Hive",
       "subtitle": "Building the tech community in Greater Moncton"
     },
     "upcoming": {
@@ -37,7 +37,7 @@
     "button": "Subscribe"
   },
   "footer": {
-    "copyright": "Tech Moncton",
+    "copyright": "Moncton Tech Hive",
     "github": "GitHub"
   }
 }
