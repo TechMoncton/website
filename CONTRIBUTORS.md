@@ -107,10 +107,8 @@ CI will also run `npm run lint` and `npm run format:check` on every pull request
 
 1. Create a branch from `main`: `git checkout -b my-change`
 2. Make your changes
-3. Run `npm run lint` and `npm run format` to ensure code style is consistent
-4. Run `npm run build` to verify the site builds successfully
-5. Commit and push your branch
-6. Open a PR against `main` — CI will automatically run lint, format check, and build
-7. A maintainer will review your PR
+3. Commit and push — the pre-commit hook handles lint and formatting automatically
+4. Open a PR against `main` — CI will validate lint, formatting, and build
+5. A maintainer will review your PR
 
 That's it! Don't hesitate to open an issue or PR even if your change is small. Every contribution helps.
