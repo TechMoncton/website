@@ -45,17 +45,20 @@ src/
 ### Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/TechMoncton/tech-moncton-site.git
    cd tech-moncton-site
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Copy environment file:
+
    ```bash
    cp .env.example .env
    ```
@@ -80,10 +83,10 @@ PUBLIC_SITE_URL=http://localhost:4321
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `npm run dev`     | Start development server |
+| `npm run build`   | Build for production     |
 | `npm run preview` | Preview production build |
 
 ## Deployment
@@ -94,10 +97,10 @@ The site deploys to GitHub Pages via GitHub Actions on push to `main`.
 
 Set these as GitHub repository variables (Settings > Secrets and variables > Actions > Variables):
 
-| Variable | Description | Example |
-|----------|-------------|---------|
+| Variable                      | Description                 | Example                                |
+| ----------------------------- | --------------------------- | -------------------------------------- |
 | `PUBLIC_EMAILOCTOPUS_FORM_ID` | EmailOctopus form ID (UUID) | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-| `PUBLIC_SITE_URL` | Production site URL | `https://monctontechhive.ca` |
+| `PUBLIC_SITE_URL`             | Production site URL         | `https://monctontechhive.ca`           |
 
 ## Data Source
 

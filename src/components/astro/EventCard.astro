@@ -1,5 +1,11 @@
 ---
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Event } from '@/lib/events';
 import { isUpcoming, parseEventDate } from '@/lib/events';
@@ -20,23 +26,28 @@ const upcoming = isUpcoming(event);
 
 // Format date for display
 const eventDate = parseEventDate(event.date);
-const formattedDate = eventDate.toLocaleDateString(lang === 'fr' ? 'fr-CA' : 'en-CA', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const formattedDate = eventDate.toLocaleDateString(
+  lang === 'fr' ? 'fr-CA' : 'en-CA',
+  {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  },
+);
 ---
 
 <Card className={upcoming ? 'border-primary/50' : ''}>
   <CardHeader>
     <div class="flex items-start justify-between gap-2">
       <CardTitle className="text-lg">{event.topic}</CardTitle>
-      {upcoming && (
-        <Badge variant="default" className="shrink-0">
-          {translations.upcomingBadge}
-        </Badge>
-      )}
+      {
+        upcoming && (
+          <Badge variant="default" className="shrink-0">
+            {translations.upcomingBadge}
+          </Badge>
+        )
+      }
     </div>
     <CardDescription>{event.presentation}</CardDescription>
   </CardHeader>

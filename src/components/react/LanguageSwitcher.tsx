@@ -6,7 +6,10 @@ interface LanguageSwitcherProps {
   currentPath: string;
 }
 
-export function LanguageSwitcher({ currentLang, currentPath }: LanguageSwitcherProps) {
+export function LanguageSwitcher({
+  currentLang,
+  currentPath,
+}: LanguageSwitcherProps) {
   const otherLang = currentLang === 'en' ? 'fr' : 'en';
 
   // Build the path for the other language

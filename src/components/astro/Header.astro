@@ -17,10 +17,15 @@ const { lang, translations } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+<header
+  class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
   <div class="container flex h-14 items-center">
     <div class="mr-4 flex">
-      <a href={getLocalizedPath('', lang)} class="mr-6 flex items-center space-x-2">
+      <a
+        href={getLocalizedPath('', lang)}
+        class="mr-6 flex items-center space-x-2"
+      >
         <span class="font-bold">Moncton Tech Hive</span>
       </a>
       <nav class="flex items-center space-x-6 text-sm font-medium">
@@ -40,7 +45,11 @@ const currentPath = Astro.url.pathname;
     </div>
     <div class="flex flex-1 items-center justify-end space-x-2">
       <ThemeToggle client:load />
-      <LanguageSwitcher client:load currentLang={lang} currentPath={currentPath} />
+      <LanguageSwitcher
+        client:load
+        currentLang={lang}
+        currentPath={currentPath}
+      />
     </div>
   </div>
 </header>

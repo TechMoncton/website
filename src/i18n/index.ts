@@ -31,7 +31,10 @@ function getNestedValue(obj: TranslationValue, path: string): string {
 
 export function useTranslations(lang: Language) {
   return function t(key: string): string {
-    return getNestedValue(translations[lang] as unknown as TranslationValue, key);
+    return getNestedValue(
+      translations[lang] as unknown as TranslationValue,
+      key,
+    );
   };
 }
 

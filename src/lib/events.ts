@@ -6,7 +6,8 @@ export interface Event {
   year: number;
 }
 
-const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/TechMoncton/Meetups/main';
+const GITHUB_RAW_BASE =
+  'https://raw.githubusercontent.com/TechMoncton/Meetups/main';
 
 export async function fetchEventsForYear(year: number): Promise<Event[]> {
   const url = `${GITHUB_RAW_BASE}/MeetUps%20${year}/MeetUps%20${year}.json`;
@@ -66,5 +67,8 @@ export function getUpcomingEvents(events: Event[]): Event[] {
 }
 
 export function getPastEvents(events: Event[]): Event[] {
-  return sortByDate(events.filter(e => !isUpcoming(e)), false);
+  return sortByDate(
+    events.filter((e) => !isUpcoming(e)),
+    false,
+  );
 }

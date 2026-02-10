@@ -20,6 +20,7 @@
 ## 3. Set up local development
 
 1. Copy `.env.example` to `.env`:
+
    ```bash
    cp .env.example .env
    ```
@@ -32,10 +33,10 @@ Go to your repository's **Settings > Secrets and variables > Actions**.
 
 Under **Variables** (click "New repository variable" for each):
 
-| Name | Value |
-|------|-------|
-| `PUBLIC_EMAILOCTOPUS_FORM_ID` | Your form UUID from step 2 |
-| `PUBLIC_SITE_URL` | Your site URL (e.g. `https://monctontechhive.ca`) |
+| Name                          | Value                                             |
+| ----------------------------- | ------------------------------------------------- |
+| `PUBLIC_EMAILOCTOPUS_FORM_ID` | Your form UUID from step 2                        |
+| `PUBLIC_SITE_URL`             | Your site URL (e.g. `https://monctontechhive.ca`) |
 
 ## 5. Sending campaigns
 

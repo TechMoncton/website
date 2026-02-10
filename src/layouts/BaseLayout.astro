@@ -23,9 +23,11 @@ const t = useTranslations(lang);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} | {t('site.title')}</title>
     <script is:inline>
-      (function() {
+      (function () {
         const stored = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia(
+          '(prefers-color-scheme: dark)',
+        ).matches;
         const isDark = stored === 'dark' || (stored !== 'light' && prefersDark);
         if (isDark) document.documentElement.classList.add('dark');
       })();

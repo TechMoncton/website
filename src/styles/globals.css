@@ -63,8 +63,8 @@
   color: hsl(var(--foreground)) !important;
 }
 
-.dark [data-form] input[type="email"],
-.dark [data-form] input[type="text"],
+.dark [data-form] input[type='email'],
+.dark [data-form] input[type='text'],
 .dark [data-form] select,
 .dark [data-form] textarea {
   background-color: hsl(var(--input)) !important;

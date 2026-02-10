@@ -11,6 +11,7 @@ Moncton Tech Hive website - a bilingual community site for tech meetups in Monct
 ### Events Data Source
 
 Events are fetched directly from the [TechMoncton/Meetups](https://github.com/TechMoncton/Meetups) GitHub repository at **build time** (not from a database). The event JSON files are located at:
+
 - `MeetUps {YEAR}/MeetUps {YEAR}.json`
 
 Event schema: `{ date, time, topic, presentation }`
@@ -20,6 +21,7 @@ Event schema: `{ date, time, topic, presentation }`
 The subscribe form uses an EmailOctopus JavaScript embed. No backend needed — EmailOctopus handles form rendering, validation, unsubscribe compliance, and GDPR. Campaigns are created and sent manually through the EmailOctopus dashboard.
 
 Config comes from a single environment variable:
+
 - `PUBLIC_EMAILOCTOPUS_FORM_ID` — UUID from EmailOctopus (Forms > Embed)
 
 ### Internationalization
@@ -34,16 +36,20 @@ Config comes from a single environment variable:
 ```bash
 npm run dev                                 # Start Astro dev server
 npm run build                               # Build site (runs astro check first)
+npm run lint                                # Run ESLint
+npm run lint:fix                            # Run ESLint with auto-fix
+npm run format                              # Format all files with Prettier
+npm run format:check                        # Check formatting (CI uses this)
 ```
 
 ## File Locations
 
-| What | Where |
-|------|-------|
-| Translations | `src/i18n/translations/*.json` |
-| shadcn components | `src/components/ui/*.tsx` |
-| Page components | `src/components/astro/*.astro` |
-| React components | `src/components/react/*.tsx` |
+| What              | Where                          |
+| ----------------- | ------------------------------ |
+| Translations      | `src/i18n/translations/*.json` |
+| shadcn components | `src/components/ui/*.tsx`      |
+| Page components   | `src/components/astro/*.astro` |
+| React components  | `src/components/react/*.tsx`   |
 
 ## Common Tasks
 
