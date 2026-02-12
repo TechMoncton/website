@@ -4,6 +4,7 @@ export interface Event {
   topic: string;
   presentation: string; // speaker
   year: number;
+  location?: string;
 }
 
 const GITHUB_RAW_BASE =
@@ -19,14 +20,61 @@ export async function fetchEventsForYear(year: number): Promise<Event[]> {
       return [];
     }
     const events = await response.json();
-    return events.map((event: Omit<Event, 'year'>) => ({
+    return events.map((event: any) => ({
       ...event,
+      topic: Array.isArray(event.topic) ? event.topic.join(', ') : event.topic,
+      presentation: Array.isArray(event.presentation)
+        ? event.presentation.join(', ')
+        : event.presentation,
       year,
     }));
   } catch (error) {
     console.error(`Error fetching events for year ${year}:`, error);
     return [];
   }
+}
+
+export function getNextFirstFriday(startDate: Date): Date {
+  const date = new Date(startDate);
+  // Start at the beginning of the month of the startDate
+  date.setDate(1);
+
+  // Find the first Friday of this month
+  // 0 is Sunday, 5 is Friday
+  let firstFriday = 1 + ((5 - date.getDay() + 7) % 7);
+  date.setDate(firstFriday);
+  date.setHours(18, 30, 0, 0); // 6:30 PM
+
+  // If the first Friday of this month is in the past, go to next month
+  if (date < startDate) {
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(1);
+    firstFriday = 1 + ((5 - date.getDay() + 7) % 7);
+    date.setDate(firstFriday);
+    date.setHours(18, 30, 0, 0);
+  }
+
+  return date;
+}
+
+export function getRecurringMeetup(): Event {
+  const nextMeetupDate = getNextFirstFriday(new Date());
+
+  // Format date as "Month Day, Year" to match existing data format
+  const dateString = nextMeetupDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  return {
+    date: dateString,
+    time: '6:30 PM',
+    topic: 'events.recurringTopic', // i18n key
+    presentation: 'events.recurringPresentation', // i18n key
+    year: nextMeetupDate.getFullYear(),
+    location: 'Venn Innovation (770 St. George Blvd, Moncton)',
+  };
 }
 
 export async function fetchAllEvents(): Promise<Event[]> {
@@ -39,7 +87,23 @@ export async function fetchAllEvents(): Promise<Event[]> {
   }
 
   const eventsArrays = await Promise.all(years.map(fetchEventsForYear));
-  return eventsArrays.flat();
+  const fetchedEvents = eventsArrays.flat();
+
+  // Add the recurring meetup
+  const recurringMeetup = getRecurringMeetup();
+
+  // Check if we already have an event on this date to avoid duplication
+  const hasDuplicate = fetchedEvents.some(
+    (e) =>
+      parseEventDate(e.date).toDateString() ===
+      parseEventDate(recurringMeetup.date).toDateString(),
+  );
+
+  if (!hasDuplicate) {
+    fetchedEvents.push(recurringMeetup);
+  }
+
+  return fetchedEvents;
 }
 
 export function parseEventDate(dateStr: string): Date {

@@ -12,21 +12,47 @@ const allEvents = await fetchAllEvents();
 const upcomingEvents = getUpcomingEvents(allEvents);
 const pastEvents = getPastEvents(allEvents);
 
+// Group past events by year
+const pastEventsByYear = pastEvents.reduce(
+  (acc, event) => {
+    const year = event.year;
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(event);
+    return acc;
+  },
+  {} as Record<number, typeof pastEvents>,
+);
+
+const years = Object.keys(pastEventsByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+
 const eventTranslations = {
   speaker: t('events.speaker'),
   date: t('events.date'),
   time: t('events.time'),
+  location: t('events.location'),
   upcomingBadge: t('events.upcomingBadge'),
 };
 ---
 
 <BaseLayout title={t('events.title')} lang={lang}>
-  <div class="container py-8 space-y-12">
-    <h1 class="text-3xl font-bold">{t('events.title')}</h1>
+  <div class="container py-8 pb-20 space-y-12">
+    <!-- Header Section -->
+    <section class="text-center py-12">
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+        {t('events.title')}
+      </h1>
+      <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
+        {t('events.subtitle')}
+      </p>
+    </section>
 
     <!-- Upcoming Events -->
     <section>
-      <h2 class="text-2xl font-semibold mb-6">{t('events.upcoming')}</h2>
+      <h2 class="text-2xl font-semibold mb-8 border-b pb-2">
+        {t('events.upcoming')}
+      </h2>
       <EventList
         events={upcomingEvents}
         translations={eventTranslations}
@@ -35,15 +61,21 @@ const eventTranslations = {
       />
     </section>
 
-    <!-- Past Events -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-6">{t('events.past')}</h2>
-      <EventList
-        events={pastEvents}
-        translations={eventTranslations}
-        emptyMessage={t('events.noPast')}
-        lang={lang}
-      />
-    </section>
+    <!-- Past Events Grouped by Year -->
+    {
+      years.map((year) => (
+        <section>
+          <h2 class="text-2xl font-semibold mb-8 border-b pb-2">
+            {year} {t('events.title')}
+          </h2>
+          <EventList
+            events={pastEventsByYear[year]}
+            translations={eventTranslations}
+            emptyMessage={t('events.noPast')}
+            lang={lang}
+          />
+        </section>
+      ))
+    }
   </div>
 </BaseLayout>

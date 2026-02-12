@@ -5,13 +5,16 @@
   },
   "nav": {
     "home": "Accueil",
+    "about": "À propos",
     "events": "Événements",
     "subscribe": "S'abonner"
   },
   "home": {
     "hero": {
       "title": "Moncton Tech Hive",
-      "subtitle": "Bâtir la communauté technologique du Grand Moncton"
+      "subtitle": "Bâtir la communauté technologique du Grand Moncton",
+      "checkEvents": "Nos événements",
+      "aboutUs": "À propos de nous"
     },
     "upcoming": {
       "title": "Événements à venir",
@@ -19,8 +22,61 @@
       "noEvents": "Aucun événement prévu. Revenez bientôt!"
     }
   },
+  "about": {
+    "title": "À propos de Moncton Tech Hive",
+    "description": "Une rencontre conviviale et inclusive pour la communauté technologique et les développeurs de Moncton afin de se connecter, partager des idées et tisser des liens locaux.",
+    "sections": {
+      "whenAndWhere": {
+        "title": "Quand et où",
+        "time": "Fréquence : Le premier vendredi de chaque mois, sauf indication contraire.",
+        "start": "Heure de début : 18h30.",
+        "venue": "Lieu : Venn Innovation, 770 boulevard St. George.",
+        "after": "Après la rencontre : Nous nous retrouvons généralement pour manger et boire un verre dans un restaurant ou un pub à proximité."
+      },
+      "discord": {
+        "title": "Hub Discord",
+        "subtitle": "Rejoignez notre espace principal pour discuter et échanger entre les rencontres",
+        "link": "Invitation Discord : https://discord.gg/axYagWhk6Y",
+        "p1": "C'est l'espace communautaire principal pour les annonces, les conversations informelles, la planification d'événements et le suivi des présentations.",
+        "p2": "Utilisez Discord pour poser des questions, partager des offres d'emploi, présenter vos projets, trouver des collaborateurs et organiser des rencontres impromptues.",
+        "p3": "Les nouveaux membres sont invités à se présenter et à participer aux discussions dans n'importe quel canal."
+      },
+      "expect": {
+        "title": "À quoi s'attendre",
+        "fees": "Gratuit : Aucune adhésion formelle ni cotisation n'est requise.",
+        "format": "Format : Courtes présentations, démos éclair, démonstrations ou discussions ouvertes animées par les membres de la communauté.",
+        "tone": "Ambiance : Décontractée, entraide et axée sur la communauté. Les sessions sont conçues pour être accessibles à tous les niveaux d'expérience.",
+        "networking": "Réseautage : Un moment pour rencontrer d'autres personnes travaillant sur des technologies ou projets similaires, ainsi qu'une partie sociale après la réunion."
+      },
+      "participate": {
+        "title": "Comment participer",
+        "attend": "Assister à une rencontre : Rendez-vous chez Venn Innovation le premier vendredi du mois à 18h30.",
+        "present": "Présenter ou faire une démo : Si vous souhaitez donner une courte conférence ou faire une démonstration, contactez les organisateurs sur Discord ou lors d'un événement. Les sujets peuvent être techniques, axés sur un projet ou sur la communauté.",
+        "share": "Partager et collaborer : Apportez vos idées, demandez des commentaires ou proposez des opportunités de collaboration.",
+        "beWelcoming": "Être accueillant : Présentez-vous, écoutez et soyez ouvert à de nouvelles perspectives."
+      },
+      "coc": {
+        "title": "Code de conduite et contact",
+        "cocTitle": "Code de conduite",
+        "p1": "Respectez tout le monde. Le harcèlement, la discrimination ou les comportements abusifs ne seront pas tolérés.",
+        "p2": "Si vous rencontrez ou êtes témoin d'un problème, contactez un organisateur pour que nous puissions le résoudre rapidement.",
+        "contactTitle": "Contact et mises à jour",
+        "venue": "Lieu : Venn Innovation, 770 boulevard St. George.",
+        "announcements": "Annonces et changements d'horaire : Publiés sur Discord et dans les listes d'événements.",
+        "organizers": "Organisateurs : Contactez-nous via le serveur Discord pour obtenir les coordonnées des organisateurs et la coordination des événements."
+      },
+      "faq": {
+        "title": "FAQ rapide",
+        "register": "Dois-je m'inscrire ? : Non ! Venez simplement avec votre sourire !",
+        "guest": "Puis-je amener un invité ? : Oui, les invités sont les bienvenus.",
+        "parking": "Y a-t-il du stationnement ? : Venn Innovation dispose d'un vaste parking à l'avant.",
+        "accessibility": "Accessibilité : Si vous avez des besoins en matière d'accessibilité, envoyez un message aux organisateurs sur Discord pour que nous puissions vous aider."
+      }
+    }
+  },
   "events": {
     "title": "Événements",
+    "subtitle": "Découvrez nos événements à venir et passés",
     "upcoming": "Événements à venir",
     "past": "Événements passés",
     "noUpcoming": "Aucun événement à venir.",
@@ -28,7 +84,10 @@
     "speaker": "Présentateur",
     "date": "Date",
     "time": "Heure",
-    "upcomingBadge": "À venir"
+    "location": "Lieu",
+    "upcomingBadge": "À venir",
+    "recurringTopic": "Rencontre mensuelle",
+    "recurringPresentation": "Réseautage et discussion de la communauté technologique"
   },
   "subscribe": {
     "title": "Restez informé",
@@ -38,6 +97,7 @@
   },
   "footer": {
     "copyright": "Moncton Tech Hive",
-    "github": "GitHub"
+    "github": "GitHub",
+    "discord": "Discord"
   }
 }

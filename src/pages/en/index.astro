@@ -2,17 +2,12 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import EventList from '@/components/astro/EventList.astro';
 import SubscribeForm from '@/components/astro/SubscribeForm.astro';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from '@/i18n';
 import { fetchAllEvents, getUpcomingEvents } from '@/lib/events';
 import { getLocalizedPath } from '@/i18n';
+import Hero from '@/components/astro/Hero.astro';
 
 const lang = 'en';
 const t = useTranslations(lang);
@@ -23,49 +18,72 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
 ---
 
 <BaseLayout title={t('nav.home')} lang={lang}>
-  <div class="container py-8 space-y-12">
-    <!-- Hero Section -->
-    <section class="text-center py-12">
-      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-        {t('home.hero.title')}
-      </h1>
-      <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
-        {t('home.hero.subtitle')}
-      </p>
-    </section>
+  <Hero 
+    title={t('home.hero.title')} 
+    subtitle={t('home.hero.subtitle')}
+  >
+    <div slot="actions">
+      <a href={getLocalizedPath('about', lang)}>
+        <Button size="lg" className="rounded-full px-8">
+          {t('home.hero.aboutUs')}
+        </Button>
+      </a>
+      <a href={getLocalizedPath('events', lang)}>
+        <Button variant="outline" size="lg" className="rounded-full px-8">
+          {t('home.hero.checkEvents')}
+        </Button>
+      </a>
+    </div>
+  </Hero>
 
+  <div class="container py-16 lg:py-24 space-y-24">
     <!-- Upcoming Events Section -->
     <section>
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold">{t('home.upcoming.title')}</h2>
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold">{t('home.upcoming.title')}</h2>
+      </div>
+      <div class="max-w-xl mx-auto">
+        <Card className="hover:border-primary/40 transition-colors">
+          <CardContent className="pt-6">
+            <EventList
+              events={upcomingEvents}
+              translations={{
+                speaker: t('events.speaker'),
+                date: t('events.date'),
+                time: t('events.time'),
+                location: t('events.location'),
+                upcomingBadge: t('events.upcomingBadge'),
+              }}
+              emptyMessage={t('home.upcoming.noEvents')}
+              lang={lang}
+              layout="list"
+              noBorder
+            />
+          </CardContent>
+        </Card>
+      </div>
+      <div class="mt-10 text-center">
         <a href={getLocalizedPath('events', lang)}>
-          <Button variant="outline">{t('home.upcoming.viewAll')}</Button>
+          <Button variant="outline" size="lg">{t('home.upcoming.viewAll')}</Button>
         </a>
       </div>
-      <EventList
-        events={upcomingEvents}
-        translations={{
-          speaker: t('events.speaker'),
-          date: t('events.date'),
-          time: t('events.time'),
-          upcomingBadge: t('events.upcomingBadge'),
-        }}
-        emptyMessage={t('home.upcoming.noEvents')}
-        lang={lang}
-      />
     </section>
 
     <!-- Newsletter Section -->
-    <section class="max-w-xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('subscribe.title')}</CardTitle>
-          <CardDescription>{t('subscribe.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SubscribeForm lang={lang} />
-        </CardContent>
-      </Card>
+    <section>
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold">{t('subscribe.title')}</h2>
+        <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
+          {t('subscribe.description')}
+        </p>
+      </div>
+      <div class="max-w-xl mx-auto">
+        <Card className="hover:border-primary/40 transition-colors">
+          <CardContent className="pt-6">
+            <SubscribeForm lang={lang} />
+          </CardContent>
+        </Card>
+      </div>
     </section>
   </div>
 </BaseLayout>

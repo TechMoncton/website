@@ -8,6 +8,7 @@ interface Props {
   lang: Language;
   translations: {
     home: string;
+    about: string;
     events: string;
     subscribe: string;
   };
@@ -21,23 +22,29 @@ const currentPath = Astro.url.pathname;
   class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
   <div class="container flex h-14 items-center">
-    <div class="mr-4 flex">
+    <div class="flex h-full items-center">
       <a
         href={getLocalizedPath('', lang)}
-        class="mr-6 flex items-center space-x-2"
+        class="mr-10 flex items-center space-x-2 shrink-0"
       >
         <span class="font-bold">Moncton Tech Hive</span>
       </a>
-      <nav class="flex items-center space-x-6 text-sm font-medium">
+      <nav class="flex h-full items-stretch text-sm font-medium">
         <a
           href={getLocalizedPath('', lang)}
-          class="transition-colors hover:text-foreground/80 text-foreground/60"
+          class={`flex items-center px-4 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('', lang) ? 'text-foreground' : 'text-foreground/60'}`}
         >
           {translations.home}
         </a>
         <a
+          href={getLocalizedPath('about', lang)}
+          class={`flex items-center px-4 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('about', lang) ? 'text-foreground' : 'text-foreground/60'}`}
+        >
+          {translations.about}
+        </a>
+        <a
           href={getLocalizedPath('events', lang)}
-          class="transition-colors hover:text-foreground/80 text-foreground/60"
+          class={`flex items-center px-4 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('events', lang) ? 'text-foreground' : 'text-foreground/60'}`}
         >
           {translations.events}
         </a>

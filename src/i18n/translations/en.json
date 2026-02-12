@@ -5,13 +5,16 @@
   },
   "nav": {
     "home": "Home",
+    "about": "About",
     "events": "Events",
     "subscribe": "Subscribe"
   },
   "home": {
     "hero": {
       "title": "Moncton Tech Hive",
-      "subtitle": "Building the tech community in Greater Moncton"
+      "subtitle": "Building the tech community in Greater Moncton",
+      "checkEvents": "Our Events",
+      "aboutUs": "About Us"
     },
     "upcoming": {
       "title": "Upcoming Events",
@@ -19,8 +22,61 @@
       "noEvents": "No upcoming events scheduled. Check back soon!"
     }
   },
+  "about": {
+    "title": "About Moncton Tech Hive",
+    "description": "A friendly, inclusive meetup for Moncton’s tech and developer community to connect, share ideas, and build local relationships.",
+    "sections": {
+      "whenAndWhere": {
+        "title": "When and Where",
+        "time": "Regular meeting time: First Friday of every month unless stated otherwise.",
+        "start": "Start time: 6:30 PM.",
+        "venue": "Venue: Venn Innovation, 770 St. George Boulevard.",
+        "after": "After meetup: There is typically a meal and drinks at a nearby restaurant or pub after the meeting."
+      },
+      "discord": {
+        "title": "Discord Hub",
+        "subtitle": "Join our main place to chat and hang out between meetups",
+        "link": "Discord Invite: https://discord.gg/axYagWhk6Y",
+        "p1": "Primary community space for announcements, casual conversation, event planning, and followups from talks.",
+        "p2": "Use the Discord to ask questions, share job posts, show projects, find collaborators, and organize ad hoc meetups.",
+        "p3": "New members are welcome to introduce themselves and jump into any topic channel."
+      },
+      "expect": {
+        "title": "What to Expect",
+        "fees": "No fees: No formal membership or dues required.",
+        "format": "Format: Short talks, lightning demos, show-and-tell, or open discussions led by local members.",
+        "tone": "Tone: Casual, helpful, and community focused. Sessions are designed to be accessible to a range of experience levels.",
+        "networking": "Networking: Time to meet others working on similar technologies or projects, plus the social portion after the meeting for food and drinks."
+      },
+      "participate": {
+        "title": "How to Participate",
+        "attend": "Attend a meeting: Come to Venn Innovation on the first Friday at 6:30 PM.",
+        "present": "Present or demo: If you’d like to give a short talk or demo, message the organizers on Discord or at the event. Talks can be technical, project-focused, or community-oriented.",
+        "share": "Share and collaborate: Bring ideas, ask for feedback, or propose collaboration opportunities.",
+        "beWelcoming": "Be welcoming: Introduce yourself, listen, and be open to new perspectives."
+      },
+      "coc": {
+        "title": "Code of Conduct and Contact",
+        "cocTitle": "Code of Conduct",
+        "p1": "Respect everyone. Harassment, discrimination, or abusive behavior will not be tolerated.",
+        "p2": "If you experience or witness any issues, contact an organizer so we can address it promptly.",
+        "contactTitle": "Contact and Updates",
+        "venue": "Venue: Venn Innovation, 770 St. George Boulevard.",
+        "announcements": "Announcements and schedule changes: Posted on Discord and event listings.",
+        "organizers": "Organizers: Reach out via the Discord server for organizer contact details and event coordination."
+      },
+      "faq": {
+        "title": "Quick FAQ",
+        "register": "Do I need to register?: No! Just show up and bring your smile!",
+        "guest": "Can I bring a guest?: Yes, guests are welcome.",
+        "parking": "Is there parking?: Venn Innovation has ample parking out front.",
+        "accessibility": "Accessibility: If you have accessibility needs, message the organizers on Discord so we can help."
+      }
+    }
+  },
   "events": {
     "title": "Events",
+    "subtitle": "Check out our upcoming and past events",
     "upcoming": "Upcoming Events",
     "past": "Past Events",
     "noUpcoming": "No upcoming events scheduled.",
@@ -28,7 +84,10 @@
     "speaker": "Speaker",
     "date": "Date",
     "time": "Time",
-    "upcomingBadge": "Upcoming"
+    "location": "Location",
+    "upcomingBadge": "Upcoming",
+    "recurringTopic": "Monthly Meetup",
+    "recurringPresentation": "Tech community presentation and networking"
   },
   "subscribe": {
     "title": "Stay Updated",
@@ -38,6 +97,7 @@
   },
   "footer": {
     "copyright": "Moncton Tech Hive",
-    "github": "GitHub"
+    "github": "GitHub",
+    "discord": "Discord"
   }
 }
