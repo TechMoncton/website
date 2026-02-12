@@ -18,10 +18,7 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
 ---
 
 <BaseLayout title={t('nav.home')} lang={lang}>
-  <Hero 
-    title={t('home.hero.title')} 
-    subtitle={t('home.hero.subtitle')}
-  >
+  <Hero title={t('home.hero.title')} subtitle={t('home.hero.subtitle')}>
     <div slot="actions">
       <a href={getLocalizedPath('about', lang)}>
         <Button size="lg" className="rounded-full px-8">
@@ -64,7 +61,9 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
       </div>
       <div class="mt-10 text-center">
         <a href={getLocalizedPath('events', lang)}>
-          <Button variant="outline" size="lg">{t('home.upcoming.viewAll')}</Button>
+          <Button variant="outline" size="lg"
+            >{t('home.upcoming.viewAll')}</Button
+          >
         </a>
       </div>
     </section>

@@ -19,18 +19,28 @@ const { title, subtitle } = Astro.props;
     <!-- Grid squares -->
     <div class="hero-grid absolute inset-0"></div>
     <!-- Gradient mask to fade edges -->
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_70%)]"></div>
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_70%)]"
+    >
+    </div>
   </div>
 
   <style>
     .hero-grid {
       background-image:
-        linear-gradient(to right, hsl(var(--primary) / 0.15) 1px, transparent 1px),
-        linear-gradient(to bottom, hsl(var(--primary) / 0.15) 1px, transparent 1px);
+        linear-gradient(
+          to right,
+          hsl(var(--primary) / 0.15) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          hsl(var(--primary) / 0.15) 1px,
+          transparent 1px
+        );
       background-size: 40px 40px;
     }
   </style>
-
 
   <div class="container relative">
     <div class="flex flex-col items-center text-center space-y-8">
@@ -43,7 +53,9 @@ const { title, subtitle } = Astro.props;
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+      <div
+        class="flex flex-wrap items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
+      >
         <slot name="actions" />
       </div>
     </div>
