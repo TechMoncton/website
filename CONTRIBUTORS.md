@@ -21,7 +21,7 @@ Welcome! This project was completely vibe coded and is open to contributions of 
 
 ```bash
 # 1. Fork and clone the repo
-git clone https://github.com/TechMoncton/website.git TechMoncton-website
+git clone https://github.com/{your-user-id}/techmoncton-website TechMoncton-website
 cd TechMoncton-website
 
 # 2. Install dependencies

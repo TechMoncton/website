@@ -20,6 +20,7 @@ export async function fetchEventsForYear(year: number): Promise<Event[]> {
       return [];
     }
     const events = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return events.map((event: any) => ({
       ...event,
       topic: Array.isArray(event.topic) ? event.topic.join(', ') : event.topic,

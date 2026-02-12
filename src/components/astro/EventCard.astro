@@ -9,7 +9,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import type { Event } from '@/lib/events';
 import { isUpcoming, parseEventDate } from '@/lib/events';
-import { useTranslations } from '@/i18n';
+import { useTranslations, type Language } from '@/i18n';
 
 interface Props {
   event: Event;
@@ -28,7 +28,7 @@ const { event, translations, lang, noBorder = false } = Astro.props;
 const upcoming = isUpcoming(event);
 
 // Helper to handle i18n keys in event data
-const t = useTranslations(lang as any);
+const t = useTranslations(lang as Language);
 const displayTopic =
   typeof event.topic === 'string' && event.topic.startsWith('events.')
     ? t(event.topic)
@@ -69,7 +69,9 @@ function normalizeTime(time: string): string {
 const formattedTime = normalizeTime(event.time);
 ---
 
-<Card className={`${upcoming ? 'border-primary/50' : 'hover:border-primary/40 transition-colors'} ${noBorder ? 'border-none shadow-none bg-transparent' : ''}`}>
+<Card
+  className={`${upcoming ? 'border-primary/50' : 'hover:border-primary/40 transition-colors'} ${noBorder ? 'border-none shadow-none bg-transparent' : ''}`}
+>
   <CardHeader>
     <div class="flex items-start justify-between gap-2">
       <CardTitle className="text-lg">{displayTopic}</CardTitle>
