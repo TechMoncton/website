@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import type { Event } from '@/lib/events';
 import { isUpcoming, parseEventDate } from '@/lib/events';
 import { useTranslations, type Language } from '@/i18n';
+import { normalizeTime } from '@/lib/utils';
 
 interface Props {
   event: Event;
@@ -28,15 +29,15 @@ const { event, translations, lang, noBorder = false } = Astro.props;
 const upcoming = isUpcoming(event);
 
 // Helper to handle i18n keys in event data
-const t = useTranslations(lang as Language);
+const translate = useTranslations(lang as Language);
 const displayTopic =
   typeof event.topic === 'string' && event.topic.startsWith('events.')
-    ? t(event.topic)
+    ? translate(event.topic)
     : event.topic;
 const displayPresentation =
   typeof event.presentation === 'string' &&
   event.presentation.startsWith('events.')
-    ? t(event.presentation)
+    ? translate(event.presentation)
     : event.presentation;
 
 // Format date for display
@@ -50,21 +51,6 @@ const formattedDate = eventDate.toLocaleDateString(
     day: 'numeric',
   },
 );
-
-// Normalize time to consistent 12-hour format
-function normalizeTime(time: string): string {
-  if (/[ap]m/i.test(time)) return time;
-  const match = time.match(/^(\d{1,2})[h:](\d{2})$/);
-  if (match) {
-    let hours = parseInt(match[1], 10);
-    const minutes = match[2];
-    const period = hours >= 12 ? 'PM' : 'AM';
-    if (hours > 12) hours -= 12;
-    if (hours === 0) hours = 12;
-    return `${hours}:${minutes} ${period}`;
-  }
-  return time;
-}
 
 const formattedTime = normalizeTime(event.time);
 ---

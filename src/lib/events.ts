@@ -1,3 +1,5 @@
+import { getNextFirstFriday } from '@/lib/utils';
+
 export interface Event {
   date: string;
   time: string;
@@ -33,29 +35,6 @@ export async function fetchEventsForYear(year: number): Promise<Event[]> {
     console.error(`Error fetching events for year ${year}:`, error);
     return [];
   }
-}
-
-export function getNextFirstFriday(startDate: Date): Date {
-  const date = new Date(startDate);
-  // Start at the beginning of the month of the startDate
-  date.setDate(1);
-
-  // Find the first Friday of this month
-  // 0 is Sunday, 5 is Friday
-  let firstFriday = 1 + ((5 - date.getDay() + 7) % 7);
-  date.setDate(firstFriday);
-  date.setHours(18, 30, 0, 0); // 6:30 PM
-
-  // If the first Friday of this month is in the past, go to next month
-  if (date < startDate) {
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(1);
-    firstFriday = 1 + ((5 - date.getDay() + 7) % 7);
-    date.setDate(firstFriday);
-    date.setHours(18, 30, 0, 0);
-  }
-
-  return date;
 }
 
 export function getRecurringMeetup(): Event {
