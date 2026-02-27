@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useTranslations } from '@/i18n';
+import { useTranslations, type Language } from '@/i18n';
 import {
   MessageSquare,
   Calendar,
@@ -12,7 +12,11 @@ import {
   HelpCircle,
 } from 'lucide-react';
 
-const lang = 'fr';
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'fr' } }];
+}
+
+const lang = Astro.params.lang as Language;
 const t = useTranslations(lang);
 
 const discordLink = 'https://discord.gg/axYagWhk6Y';

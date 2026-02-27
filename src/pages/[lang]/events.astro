@@ -1,10 +1,14 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import EventList from '@/components/astro/EventList.astro';
-import { useTranslations } from '@/i18n';
+import { useTranslations, type Language } from '@/i18n';
 import { fetchAllEvents, getUpcomingEvents, getPastEvents } from '@/lib/events';
 
-const lang = 'en';
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'fr' } }];
+}
+
+const lang = Astro.params.lang as Language;
 const t = useTranslations(lang);
 
 // Fetch events at build time
@@ -66,7 +70,9 @@ const eventTranslations = {
       years.map((year) => (
         <section>
           <h2 class="text-2xl font-semibold mb-8 border-b pb-2">
-            {year} {t('events.title')}
+            {lang === 'fr'
+              ? `${t('events.title')} ${year}`
+              : `${year} ${t('events.title')}`}
           </h2>
           <EventList
             events={pastEventsByYear[year]}
