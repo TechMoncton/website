@@ -109,6 +109,7 @@ CI will also run `npm run lint` and `npm run format:check` on every pull request
 2. Make your changes
 3. Commit and push — the pre-commit hook handles lint and formatting automatically
 4. Open a PR against `main` — CI will validate lint, formatting, and build
-5. A maintainer will review your PR
+5. If your change affects the UI, include screenshots in the PR description
+6. A maintainer will review your PR
 
 That's it! Don't hesitate to open an issue or PR even if your change is small. Every contribution helps.
