@@ -41,7 +41,7 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
       </div>
       <div class="max-w-xl mx-auto">
         <Card className="hover:border-primary/40 transition-colors">
-          <CardContent className="pt-6">
+          <CardContent>
             <EventList
               events={upcomingEvents}
               translations={{
@@ -78,7 +78,7 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
       </div>
       <div class="max-w-xl mx-auto">
         <Card className="hover:border-primary/40 transition-colors">
-          <CardContent className="pt-6">
+          <CardContent>
             <SubscribeForm lang={lang} />
           </CardContent>
         </Card>
