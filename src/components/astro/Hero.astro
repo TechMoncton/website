@@ -40,11 +40,40 @@ const { title, subtitle } = Astro.props;
         );
       background-size: 40px 40px;
     }
+
+    @keyframes hero-enter {
+      from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-animate {
+      opacity: 0; /* initial state before animation; prevents flash */
+      animation: hero-enter 0.65s ease-out forwards;
+    }
+
+    .hero-animate-delayed {
+      opacity: 0;
+      animation: hero-enter 0.65s ease-out 0.15s forwards;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-animate,
+      .hero-animate-delayed {
+        animation: none;
+        opacity: 1;
+      }
+    }
   </style>
 
   <div class="container relative">
     <div class="flex flex-col items-center text-center space-y-8">
-      <div class="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <div class="hero-animate">
         <h1 class="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
           {title}
         </h1>
@@ -54,7 +83,7 @@ const { title, subtitle } = Astro.props;
       </div>
 
       <div
-        class="flex flex-wrap items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
+        class="flex flex-wrap items-center justify-center gap-4 hero-animate-delayed"
       >
         <slot name="actions" />
       </div>
