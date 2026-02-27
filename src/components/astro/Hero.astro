@@ -1,0 +1,63 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<section class="relative overflow-hidden py-20 sm:py-28">
+  <!-- Matrix Tech Background -->
+  <div class="absolute inset-0 bg-background"></div>
+  <div class="absolute inset-0">
+    <!-- Radial glow behind content -->
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.1),transparent_60%)]"
+    >
+    </div>
+    <!-- Grid squares -->
+    <div class="hero-grid absolute inset-0"></div>
+    <!-- Gradient mask to fade edges -->
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_70%)]"
+    >
+    </div>
+  </div>
+
+  <style>
+    .hero-grid {
+      background-image:
+        linear-gradient(
+          to right,
+          hsl(var(--primary) / 0.15) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          hsl(var(--primary) / 0.15) 1px,
+          transparent 1px
+        );
+      background-size: 40px 40px;
+    }
+  </style>
+
+  <div class="container relative">
+    <div class="flex flex-col items-center text-center space-y-8">
+      <div class="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <h1 class="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
+          {title}
+        </h1>
+        <p class="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
+          {subtitle}
+        </p>
+      </div>
+
+      <div
+        class="flex flex-wrap items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
+      >
+        <slot name="actions" />
+      </div>
+    </div>
+  </div>
+</section>

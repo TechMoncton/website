@@ -1,9 +1,12 @@
+import { getNextFirstFriday } from '@/lib/utils';
+
 export interface Event {
   date: string;
   time: string;
   topic: string;
   presentation: string; // speaker
   year: number;
+  location?: string;
 }
 
 const GITHUB_RAW_BASE =
@@ -19,14 +22,39 @@ export async function fetchEventsForYear(year: number): Promise<Event[]> {
       return [];
     }
     const events = await response.json();
-    return events.map((event: Omit<Event, 'year'>) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return events.map((event: any) => ({
       ...event,
+      topic: Array.isArray(event.topic) ? event.topic.join(', ') : event.topic,
+      presentation: Array.isArray(event.presentation)
+        ? event.presentation.join(', ')
+        : event.presentation,
       year,
     }));
   } catch (error) {
     console.error(`Error fetching events for year ${year}:`, error);
     return [];
   }
+}
+
+export function getRecurringMeetup(): Event {
+  const nextMeetupDate = getNextFirstFriday(new Date());
+
+  // Format date as "Month Day, Year" to match existing data format
+  const dateString = nextMeetupDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  return {
+    date: dateString,
+    time: '6:30 PM',
+    topic: 'events.recurringTopic', // i18n key
+    presentation: 'events.recurringPresentation', // i18n key
+    year: nextMeetupDate.getFullYear(),
+    location: 'Venn Innovation (770 St. George Blvd, Moncton)',
+  };
 }
 
 export async function fetchAllEvents(): Promise<Event[]> {
@@ -39,7 +67,23 @@ export async function fetchAllEvents(): Promise<Event[]> {
   }
 
   const eventsArrays = await Promise.all(years.map(fetchEventsForYear));
-  return eventsArrays.flat();
+  const fetchedEvents = eventsArrays.flat();
+
+  // Add the recurring meetup
+  const recurringMeetup = getRecurringMeetup();
+
+  // Check if we already have an event on this date to avoid duplication
+  const hasDuplicate = fetchedEvents.some(
+    (e) =>
+      parseEventDate(e.date).toDateString() ===
+      parseEventDate(recurringMeetup.date).toDateString(),
+  );
+
+  if (!hasDuplicate) {
+    fetchedEvents.push(recurringMeetup);
+  }
+
+  return fetchedEvents;
 }
 
 export function parseEventDate(dateStr: string): Date {

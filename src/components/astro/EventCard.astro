@@ -9,6 +9,8 @@ import {
 import { Badge } from '@/components/ui/badge';
 import type { Event } from '@/lib/events';
 import { isUpcoming, parseEventDate } from '@/lib/events';
+import { useTranslations, type Language } from '@/i18n';
+import { normalizeTime } from '@/lib/utils';
 
 interface Props {
   event: Event;
@@ -16,31 +18,49 @@ interface Props {
     speaker: string;
     date: string;
     time: string;
+    location: string;
     upcomingBadge: string;
   };
   lang: string;
+  noBorder?: boolean;
 }
 
-const { event, translations, lang } = Astro.props;
+const { event, translations, lang, noBorder = false } = Astro.props;
 const upcoming = isUpcoming(event);
+
+// Helper to handle i18n keys in event data
+const translate = useTranslations(lang as Language);
+const displayTopic =
+  typeof event.topic === 'string' && event.topic.startsWith('events.')
+    ? translate(event.topic)
+    : event.topic;
+const displayPresentation =
+  typeof event.presentation === 'string' &&
+  event.presentation.startsWith('events.')
+    ? translate(event.presentation)
+    : event.presentation;
 
 // Format date for display
 const eventDate = parseEventDate(event.date);
 const formattedDate = eventDate.toLocaleDateString(
   lang === 'fr' ? 'fr-CA' : 'en-CA',
   {
-    weekday: 'long',
+    weekday: 'short',
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   },
 );
+
+const formattedTime = normalizeTime(event.time);
 ---
 
-<Card className={upcoming ? 'border-primary/50' : ''}>
+<Card
+  className={`${upcoming ? 'border-primary/50' : 'hover:border-primary/40 transition-colors'} ${noBorder ? 'border-none shadow-none bg-transparent' : ''}`}
+>
   <CardHeader>
     <div class="flex items-start justify-between gap-2">
-      <CardTitle className="text-lg">{event.topic}</CardTitle>
+      <CardTitle className="text-lg">{displayTopic}</CardTitle>
       {
         upcoming && (
           <Badge variant="default" className="shrink-0">
@@ -49,18 +69,28 @@ const formattedDate = eventDate.toLocaleDateString(
         )
       }
     </div>
-    <CardDescription>{event.presentation}</CardDescription>
+    <CardDescription>{displayPresentation}</CardDescription>
   </CardHeader>
   <CardContent>
-    <dl class="grid grid-cols-2 gap-2 text-sm">
-      <div>
-        <dt class="text-muted-foreground">{translations.date}</dt>
-        <dd class="font-medium">{formattedDate}</dd>
+    <div class="space-y-2 text-sm">
+      <div class="flex items-center gap-4">
+        <div>
+          <dt class="text-muted-foreground">{translations.date}</dt>
+          <dd class="font-medium whitespace-nowrap">{formattedDate}</dd>
+        </div>
+        <div class="border-l pl-4">
+          <dt class="text-muted-foreground">{translations.time}</dt>
+          <dd class="font-medium whitespace-nowrap">{formattedTime}</dd>
+        </div>
       </div>
-      <div>
-        <dt class="text-muted-foreground">{translations.time}</dt>
-        <dd class="font-medium">{event.time}</dd>
-      </div>
-    </dl>
+      {
+        event.location && (
+          <div>
+            <dt class="text-muted-foreground">{translations.location}</dt>
+            <dd class="font-medium">{event.location}</dd>
+          </div>
+        )
+      }
+    </div>
   </CardContent>
 </Card>
