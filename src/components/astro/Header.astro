@@ -21,7 +21,7 @@ const currentPath = Astro.url.pathname;
 <header
   class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
-  <div class="container flex h-14 items-center">
+  <div class="container flex h-14 items-center justify-between">
     <div class="flex h-full items-center">
       <a
         href={getLocalizedPath('', lang)}
@@ -29,7 +29,7 @@ const currentPath = Astro.url.pathname;
       >
         <span class="font-bold">Moncton Tech Hive</span>
       </a>
-      <nav class="flex h-full items-stretch text-sm font-medium">
+      <nav class="hidden md:flex h-full items-stretch text-sm font-medium">
         <a
           href={getLocalizedPath('', lang)}
           class={`flex items-center px-4 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('', lang) ? 'text-foreground' : 'text-foreground/60'}`}
@@ -50,13 +50,90 @@ const currentPath = Astro.url.pathname;
         </a>
       </nav>
     </div>
-    <div class="flex flex-1 items-center justify-end space-x-2">
+    <div class="flex items-center space-x-2">
       <ThemeToggle client:load />
       <LanguageSwitcher
         client:load
         currentLang={lang}
         currentPath={currentPath}
       />
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden inline-flex items-center justify-center rounded-md p-2 text-foreground/60 hover:bg-accent hover:text-accent-foreground transition-colors"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg
+          id="menu-icon-open"
+          class="h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg
+          id="menu-icon-close"
+          class="hidden h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
     </div>
   </div>
+  <!-- Mobile nav menu -->
+  <nav
+    id="mobile-menu"
+    class="hidden md:hidden border-t bg-background/95 backdrop-blur"
+  >
+    <div class="container flex flex-col py-3 space-y-1 text-sm font-medium">
+      <a
+        href={getLocalizedPath('', lang)}
+        class={`rounded-md px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('', lang) ? 'text-foreground bg-accent/50' : 'text-foreground/60'}`}
+      >
+        {translations.home}
+      </a>
+      <a
+        href={getLocalizedPath('about', lang)}
+        class={`rounded-md px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('about', lang) ? 'text-foreground bg-accent/50' : 'text-foreground/60'}`}
+      >
+        {translations.about}
+      </a>
+      <a
+        href={getLocalizedPath('events', lang)}
+        class={`rounded-md px-3 py-2 transition-all hover:bg-accent hover:text-accent-foreground ${currentPath === getLocalizedPath('events', lang) ? 'text-foreground bg-accent/50' : 'text-foreground/60'}`}
+      >
+        {translations.events}
+      </a>
+    </div>
+  </nav>
 </header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  btn?.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+</script>
