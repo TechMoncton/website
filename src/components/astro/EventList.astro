@@ -14,7 +14,6 @@ interface Props {
   emptyMessage: string;
   lang: string;
   layout?: 'grid' | 'list';
-  noBorder?: boolean;
 }
 
 const {
@@ -23,7 +22,6 @@ const {
   emptyMessage,
   lang,
   layout = 'grid',
-  noBorder = false,
 } = Astro.props;
 ---
 
@@ -38,12 +36,7 @@ const {
         <div
           class={`${layout === 'list' ? 'w-full' : 'w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] max-w-md'}`}
         >
-          <EventCard
-            event={event}
-            translations={translations}
-            lang={lang}
-            noBorder={noBorder}
-          />
+          <EventCard event={event} translations={translations} lang={lang} />
         </div>
       ))}
     </div>

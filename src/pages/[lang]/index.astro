@@ -4,12 +4,16 @@ import EventList from '@/components/astro/EventList.astro';
 import SubscribeForm from '@/components/astro/SubscribeForm.astro';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useTranslations } from '@/i18n';
+import { useTranslations, type Language } from '@/i18n';
 import { fetchAllEvents, getUpcomingEvents } from '@/lib/events';
 import { getLocalizedPath } from '@/i18n';
 import Hero from '@/components/astro/Hero.astro';
 
-const lang = 'fr';
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'fr' } }];
+}
+
+const lang = Astro.params.lang as Language;
 const t = useTranslations(lang);
 
 // Fetch events at build time
@@ -33,31 +37,26 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
     </div>
   </Hero>
 
-  <div class="container py-16 lg:py-24 space-y-24">
+  <div class="container pb-16 lg:pb-24 space-y-24">
     <!-- Upcoming Events Section -->
     <section>
       <div class="text-center mb-10">
         <h2 class="text-3xl font-bold">{t('home.upcoming.title')}</h2>
       </div>
       <div class="max-w-xl mx-auto">
-        <Card className="hover:border-primary/40 transition-colors">
-          <CardContent className="pt-6">
-            <EventList
-              events={upcomingEvents}
-              translations={{
-                speaker: t('events.speaker'),
-                date: t('events.date'),
-                time: t('events.time'),
-                location: t('events.location'),
-                upcomingBadge: t('events.upcomingBadge'),
-              }}
-              emptyMessage={t('home.upcoming.noEvents')}
-              lang={lang}
-              layout="list"
-              noBorder
-            />
-          </CardContent>
-        </Card>
+        <EventList
+          events={upcomingEvents}
+          translations={{
+            speaker: t('events.speaker'),
+            date: t('events.date'),
+            time: t('events.time'),
+            location: t('events.location'),
+            upcomingBadge: t('events.upcomingBadge'),
+          }}
+          emptyMessage={t('home.upcoming.noEvents')}
+          lang={lang}
+          layout="list"
+        />
       </div>
       <div class="mt-10 text-center">
         <a href={getLocalizedPath('events', lang)}>
@@ -78,7 +77,7 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
       </div>
       <div class="max-w-xl mx-auto">
         <Card className="hover:border-primary/40 transition-colors">
-          <CardContent className="pt-6">
+          <CardContent>
             <SubscribeForm lang={lang} />
           </CardContent>
         </Card>
