@@ -44,24 +44,20 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
         <h2 class="text-3xl font-bold">{t('home.upcoming.title')}</h2>
       </div>
       <div class="max-w-xl mx-auto">
-        <Card className="hover:border-primary/40 transition-colors">
-          <CardContent>
-            <EventList
-              events={upcomingEvents}
-              translations={{
-                speaker: t('events.speaker'),
-                date: t('events.date'),
-                time: t('events.time'),
-                location: t('events.location'),
-                upcomingBadge: t('events.upcomingBadge'),
-              }}
-              emptyMessage={t('home.upcoming.noEvents')}
-              lang={lang}
-              layout="list"
-              noBorder
-            />
-          </CardContent>
-        </Card>
+        <EventList
+          events={upcomingEvents}
+          translations={{
+            speaker: t('events.speaker'),
+            date: t('events.date'),
+            time: t('events.time'),
+            location: t('events.location'),
+            upcomingBadge: t('events.upcomingBadge'),
+          }}
+          emptyMessage={t('home.upcoming.noEvents')}
+          lang={lang}
+          layout="list"
+          noBorder
+        />
       </div>
       <div class="mt-10 text-center">
         <a href={getLocalizedPath('events', lang)}>

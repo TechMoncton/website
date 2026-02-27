@@ -22,10 +22,9 @@ interface Props {
     upcomingBadge: string;
   };
   lang: string;
-  noBorder?: boolean;
 }
 
-const { event, translations, lang, noBorder = false } = Astro.props;
+const { event, translations, lang } = Astro.props;
 const upcoming = isUpcoming(event);
 
 // Helper to handle i18n keys in event data
@@ -55,76 +54,42 @@ const formattedDate = eventDate.toLocaleDateString(
 const formattedTime = normalizeTime(event.time);
 ---
 
-{
-  noBorder ? (
-    <div>
-      <div class="flex flex-col space-y-1.5">
-        <div class="flex items-start justify-between gap-2">
-          <div class="font-semibold tracking-tight text-lg">{displayTopic}</div>
-          {upcoming && (
-            <Badge variant="default" className="shrink-0">
-              {translations.upcomingBadge}
-            </Badge>
-          )}
-        </div>
-        <div class="text-sm text-muted-foreground">{displayPresentation}</div>
-      </div>
-      <div class="pt-2">
-        <div class="space-y-2 text-sm">
-          <div class="flex items-center gap-4">
-            <div>
-              <dt class="text-muted-foreground">{translations.date}</dt>
-              <dd class="font-medium whitespace-nowrap">{formattedDate}</dd>
-            </div>
-            <div class="border-l pl-4">
-              <dt class="text-muted-foreground">{translations.time}</dt>
-              <dd class="font-medium whitespace-nowrap">{formattedTime}</dd>
-            </div>
-          </div>
-          {event.location && (
-            <div>
-              <dt class="text-muted-foreground">{translations.location}</dt>
-              <dd class="font-medium">{event.location}</dd>
-            </div>
-          )}
-        </div>
-      </div>
+<Card
+  className={`${upcoming ? 'border-primary/50' : 'hover:border-primary/40 transition-colors'}`}
+>
+  <CardHeader>
+    <div class="flex items-start justify-between gap-2">
+      <CardTitle className="text-lg">{displayTopic}</CardTitle>
+      {
+        upcoming && (
+          <Badge variant="default" className="shrink-0">
+            {translations.upcomingBadge}
+          </Badge>
+        )
+      }
     </div>
-  ) : (
-    <Card
-      className={`${upcoming ? 'border-primary/50' : 'hover:border-primary/40 transition-colors'}`}
-    >
-      <CardHeader>
-        <div class="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg">{displayTopic}</CardTitle>
-          {upcoming && (
-            <Badge variant="default" className="shrink-0">
-              {translations.upcomingBadge}
-            </Badge>
-          )}
+    <CardDescription>{displayPresentation}</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div class="space-y-2 text-sm">
+      <div class="flex items-center gap-4">
+        <div>
+          <dt class="text-muted-foreground">{translations.date}</dt>
+          <dd class="font-medium whitespace-nowrap">{formattedDate}</dd>
         </div>
-        <CardDescription>{displayPresentation}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div class="space-y-2 text-sm">
-          <div class="flex items-center gap-4">
-            <div>
-              <dt class="text-muted-foreground">{translations.date}</dt>
-              <dd class="font-medium whitespace-nowrap">{formattedDate}</dd>
-            </div>
-            <div class="border-l pl-4">
-              <dt class="text-muted-foreground">{translations.time}</dt>
-              <dd class="font-medium whitespace-nowrap">{formattedTime}</dd>
-            </div>
+        <div class="border-l pl-4">
+          <dt class="text-muted-foreground">{translations.time}</dt>
+          <dd class="font-medium whitespace-nowrap">{formattedTime}</dd>
+        </div>
+      </div>
+      {
+        event.location && (
+          <div>
+            <dt class="text-muted-foreground">{translations.location}</dt>
+            <dd class="font-medium">{event.location}</dd>
           </div>
-          {event.location && (
-            <div>
-              <dt class="text-muted-foreground">{translations.location}</dt>
-              <dd class="font-medium">{event.location}</dd>
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
+        )
+      }
+    </div>
+  </CardContent>
+</Card>
