@@ -16,6 +16,9 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Language;
 const t = useTranslations(lang);
 
+const slackLink =
+  'https://join.slack.com/t/monctontechhive/shared_invite/zt-3rnwe6rxi-nQfSTkRoHQUDAx5xqED2IQ';
+
 // Fetch events at build time
 const allEvents = await fetchAllEvents();
 const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
@@ -24,14 +27,12 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
 <BaseLayout title={t('nav.home')} lang={lang}>
   <Hero title={t('home.hero.title')} subtitle={t('home.hero.subtitle')}>
     <div slot="actions">
-      <a href={getLocalizedPath('about', lang)}>
-        <Button size="lg" className="rounded-full px-8">
-          {t('home.hero.aboutUs')}
-        </Button>
-      </a>
-      <a href={getLocalizedPath('events', lang)}>
-        <Button variant="outline" size="lg" className="rounded-full px-8">
-          {t('home.hero.checkEvents')}
+      <a href={slackLink} target="_blank" rel="noopener noreferrer">
+        <Button
+          size="lg"
+          className="rounded-full px-8 bg-[#4A154B] hover:bg-[#611f69] text-white"
+        >
+          {t('home.hero.joinSlack')}
         </Button>
       </a>
     </div>

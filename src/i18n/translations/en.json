@@ -14,7 +14,8 @@
       "title": "Moncton Tech Hive",
       "subtitle": "Building the tech community in Greater Moncton",
       "checkEvents": "Our Events",
-      "aboutUs": "About Us"
+      "aboutUs": "About Us",
+      "joinSlack": "Join Slack"
     },
     "upcoming": {
       "title": "Upcoming Events",
@@ -33,12 +34,12 @@
         "venue": "Venue: Venn Innovation, 770 St. George Boulevard.",
         "after": "After meetup: There is typically a meal and drinks at a nearby restaurant or pub after the meeting."
       },
-      "discord": {
-        "title": "Discord Hub",
+      "slack": {
+        "title": "Slack Hub",
         "subtitle": "Join our main place to chat and hang out between meetups",
-        "link": "Discord Invite: https://discord.gg/axYagWhk6Y",
+        "link": "Slack Invite: https://join.slack.com/t/monctontechhive/shared_invite/zt-3rnwe6rxi-nQfSTkRoHQUDAx5xqED2IQ",
         "p1": "Primary community space for announcements, casual conversation, event planning, and followups from talks.",
-        "p2": "Use the Discord to ask questions, share job posts, show projects, find collaborators, and organize ad hoc meetups.",
+        "p2": "Use Slack to ask questions, share job posts, show projects, find collaborators, and organize ad hoc meetups.",
         "p3": "New members are welcome to introduce themselves and jump into any topic channel."
       },
       "expect": {
@@ -51,7 +52,7 @@
       "participate": {
         "title": "How to Participate",
         "attend": "Attend a meeting: Come to Venn Innovation on the first Friday at 6:30 PM.",
-        "present": "Present or demo: If you’d like to give a short talk or demo, message the organizers on Discord or at the event. Talks can be technical, project-focused, or community-oriented.",
+        "present": "Present or demo: If you'd like to give a short talk or demo, message the organizers on Slack or at the event. Talks can be technical, project-focused, or community-oriented.",
         "share": "Share and collaborate: Bring ideas, ask for feedback, or propose collaboration opportunities.",
         "beWelcoming": "Be welcoming: Introduce yourself, listen, and be open to new perspectives."
       },
@@ -62,15 +63,15 @@
         "p2": "If you experience or witness any issues, contact an organizer so we can address it promptly.",
         "contactTitle": "Contact and Updates",
         "venue": "Venue: Venn Innovation, 770 St. George Boulevard.",
-        "announcements": "Announcements and schedule changes: Posted on Discord and event listings.",
-        "organizers": "Organizers: Reach out via the Discord server for organizer contact details and event coordination."
+        "announcements": "Announcements and schedule changes: Posted on Slack and event listings.",
+        "organizers": "Organizers: Reach out via the Slack workspace for organizer contact details and event coordination."
       },
       "faq": {
         "title": "Quick FAQ",
         "register": "Do I need to register?: No! Just show up and bring your smile!",
         "guest": "Can I bring a guest?: Yes, guests are welcome.",
         "parking": "Is there parking?: Venn Innovation has ample parking out front.",
-        "accessibility": "Accessibility: If you have accessibility needs, message the organizers on Discord so we can help."
+        "accessibility": "Accessibility: If you have accessibility needs, message the organizers on Slack so we can help."
       }
     }
   },
@@ -98,6 +99,6 @@
   "footer": {
     "copyright": "Moncton Tech Hive",
     "github": "GitHub",
-    "discord": "Discord"
+    "slack": "Slack"
   }
 }
