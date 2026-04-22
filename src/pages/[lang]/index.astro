@@ -16,9 +16,6 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Language;
 const t = useTranslations(lang);
 
-const slackLink =
-  'https://join.slack.com/t/monctontechhive/shared_invite/zt-3rnwe6rxi-nQfSTkRoHQUDAx5xqED2IQ';
-
 // Fetch events at build time
 const allEvents = await fetchAllEvents();
 const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
@@ -27,10 +24,14 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
 <BaseLayout title={t('nav.home')} lang={lang}>
   <Hero title={t('home.hero.title')} subtitle={t('home.hero.subtitle')}>
     <div slot="actions">
-      <a href={slackLink} target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://discord.gg/axYagWhk6Y"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <Button
           size="lg"
-          className="rounded-full px-10 py-7 text-lg font-semibold bg-[#4A154B] hover:bg-[#611f69] text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 gap-3"
+          className="rounded-full px-10 py-7 text-lg font-semibold bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 gap-3"
         >
           <svg
             viewBox="0 0 24 24"
@@ -39,10 +40,10 @@ const upcomingEvents = getUpcomingEvents(allEvents).slice(0, 3);
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"
+              d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"
             ></path>
           </svg>
-          {t('home.hero.joinSlack')}
+          {t('home.hero.joinDiscord')}
         </Button>
       </a>
     </div>
